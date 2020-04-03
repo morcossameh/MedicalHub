@@ -16,12 +16,22 @@ var u = null;
 o.validUser(obj.email,obj.password).then(results => {
     console.log(results);
 });
-*/
-const pos = {id :4,category_id : 1 , user_id : 4, content : "Hello World, Eshraq zh2anaa", createdAt: '2020-04-02 10:35:00', modifiedAt : '2020-04-02 10:35:00'};
+
+const pos = {id :4,category_id : 2 , user_id : 4, content : "Hello World, Eshraq zh2anaa", createdAt: '2020-04-02 10:35:00', modifiedAt : '2020-04-02 10:35:00'};
 
 
     po.createPost(pos).then(results => {   console.log('hello '+ results);
 });
+*/
+
+cat = [1,2]
+cat.forEach(category => { 
+    var r = po.getPostsByCategory(category).then(results => {
+        console.log(results);
+    });
+});
+
+//console.log(r)
 
   
 
