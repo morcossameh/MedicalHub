@@ -24,8 +24,13 @@ if(user) {
       $("#promotePatient").show();
       $(".fullname").text(userJson.firstName);
     });
-  } else if (userJson === 2) {
-
+  } else if (userJson.role === 2) {
+    $(document).ready(function(){
+      $("#navWithoutUser").hide();
+      $("#navDoctor").show();
+      $("#promotePatient").hide();
+      $(".fullname").text(userJson.firstName);
+    });
   }
 } else {
   $(document).ready(function(){
@@ -43,7 +48,19 @@ function signUp() {
     dateOfBirth : $("#signup-date").val(),
     role : 1
   };
-
+  password2 = $("#signup-password2").val();
+  if(!ValidateEmail(signupValues.email)){
+    return false;
+  }
+  if(!validatePassword(signupValues.password, password2)){
+    return false;
+  }
+  if(!validateName(signupValues.Firstname)){
+    return false;
+  }
+  if(!validateName(signupValues.Lastname)){
+    return false;
+  }
   console.log(signupValues)
   socket.emit('sign up', signupValues);
   socket.on('validation',function(data) {
@@ -53,6 +70,39 @@ function signUp() {
     }
   });
   return false; 
+}
+
+function validatePassword(password1, password2)
+{
+    if(password2 != password1){
+      alert("Passowrds do not match");
+      return false;
+    }
+    else{
+      return true;
+    }
+}
+
+function hasNumber(myString) {
+  return /\d/.test(myString);
+}
+
+function validateName(name) {
+  if (hasNumber(name)) {
+    alert("Name contains non letter characters");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function ValidateEmail(emailText){
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailText)){
+      return true;
+  }else{
+      alert("Email format not correct");
+      return false;
+  }
 }
 
 function login() {
