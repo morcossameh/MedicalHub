@@ -34,6 +34,9 @@ if(user) {
   }
 } else {
   $(document).ready(function(){
+    $("#navWithoutUser").show();
+    $("#navDoctor").hide();
+    $("#navPatient").hide();
     $("#promotePatient").hide();
   });
 }
@@ -114,10 +117,12 @@ function login() {
   
   console.log(signinValues)
   socket.emit('sign in', signinValues);
-  socket.on('user id',function(data) {
+  socket.on('user id', function(data) {
     if(data) {
       document.cookie = "user=" + JSON.stringify(data);
       window.location.href = "/home.html";
+    } else {
+      alert("Email or Password is not correct.");
     }
   });
   return false; 
