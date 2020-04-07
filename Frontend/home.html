@@ -110,12 +110,15 @@
       </div>
     </nav>
     <div class="container">
-      <div class="panel panel-default">
+      <div id="questionForm" class="panel panel-default" hidden>
         <div class="panel-heading">
           <div class="form-group">
             <label for="usr">Enter your Question:</label>
             <textarea type="text" class="form-control" id="usr" style="height: 32px; resize: none;" oninput="auto_grow(this)"></textarea>
-
+            <select class="form-control" style="margin-top: 10px; width: calc(100%/2 - 2px); display: inline-block !important">
+              <option value="" disabled selected>Choose a category</option>
+            </select>
+            <button type="button" class="btn btn-default" style="margin-top: -1px; width: calc(100%/2 - 2px)">Add Question</button>
           </div>
         </div>
       </div>

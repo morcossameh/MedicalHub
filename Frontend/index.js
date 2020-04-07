@@ -21,6 +21,7 @@ if(user) {
     $(document).ready(function(){
       $("#navWithoutUser").hide();
       $("#navPatient").show();
+      $("#questionForm").show();
       $("#promotePatient").show();
       $(".fullname").text(userJson.firstName);
     });
