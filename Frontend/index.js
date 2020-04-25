@@ -21,6 +21,7 @@ if(user) {
     $(document).ready(function(){
       $("#navWithoutUser").hide();
       $("#navPatient").show();
+      $("#questionForm").show();
       $("#promotePatient").show();
       $(".fullname").text(userJson.firstName);
     });
@@ -34,6 +35,9 @@ if(user) {
   }
 } else {
   $(document).ready(function(){
+    $("#navWithoutUser").show();
+    $("#navDoctor").hide();
+    $("#navPatient").hide();
     $("#promotePatient").hide();
   });
 }
@@ -114,10 +118,12 @@ function login() {
   
   console.log(signinValues)
   socket.emit('sign in', signinValues);
-  socket.on('user id',function(data) {
+  socket.on('user id', function(data) {
     if(data) {
       document.cookie = "user=" + JSON.stringify(data);
       window.location.href = "/home.html";
+    } else {
+      alert("Email or Password is not correct.");
     }
   });
   return false; 
@@ -144,22 +150,7 @@ function logout() {
   window.location.href = "/home.html";
 }
 
-// const io = require("socket.io-client");
-// //First Connect to the Server on the Specific URL (HOST:PORT)
-// let socket = io("http://localhost:3000");
-// //Now Listen for Events (welcome event).
-// socket.on("broadcast", (data) => {
-//    /*For the listener we specify the event name and we give the callback to which be called one the 
-//    event is emitted*/
-//    //Log the Welcome message 
-//    console.log("Message: ", data);
-// });
-// const obj = {id :4, Lastname : "Ibrahim", Firstname : "Eshraq", email : "ahmed.hesham@gmail", password : "eshu123" 
-// , dateOfBirth : '1997/11/27', createdAt: '2020-04-02 10:35:00', modifiedAt : '2020-04-02 10:35:00', role : 1};
-// socket.emit('sign in', obj);
-// socket.on("user id", (data) => {
-//     /*For the listener we specify the event name and we give the callback to which be called one the 
-//     event is emitted*/
-//     //Log the Welcome message 
-//     console.log("Message: ", data);
-//  });
+function auto_grow(element) {
+  element.style.height = "5px";
+  element.style.height = (element.scrollHeight)+"px";
+}
