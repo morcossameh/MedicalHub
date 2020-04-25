@@ -19,10 +19,10 @@ class Post extends Entity{
         console.log('Invalid Inputs');
         return -1;
     }
-    
    }
 
-   async getPostByCategories(categories){
+
+async getPostByCategories(categories){
     var output = [];
     
  for (let i = 0; i < categories.length; i++) {
@@ -41,6 +41,20 @@ class Post extends Entity{
     }
 }
 return output;
+}
+
+async deletePost(entity) {
+    try{
+      await this.sequelize.query("Delete from Post where id = "+ entity.id);
+      const { QueryTypes } = require('sequelize');
+      var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity.id,{type: QueryTypes.Delete});
+      return response;
+
+    }catch(error){
+       console.log(error)
+       return "failed";
+    }
+
 }
 /*
     async getPostsByCategory(category){
