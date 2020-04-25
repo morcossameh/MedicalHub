@@ -17,11 +17,11 @@ class Entity{
       });
   }  
   
-  async getLikesNumber(Entity){
+  async getLikesNumber(Entity,up){
        try{
         const { QueryTypes } = require('sequelize');
         var response = await 
-        this.sequelize.query("select count(*) from Likes where Entity_id ="+ Entity.id +" And up = true");
+        this.sequelize.query("select count(*) from Likes where Entity_id ="+ Entity.id +" And up =" +up);
         return response[0][0]['count(*)'];
 
        }catch(error){
@@ -31,18 +31,19 @@ class Entity{
   }
   // 
 
-  async getDisLikesNumber(Entity){
+  async getLikes(Entity,up){
     try{
      const { QueryTypes } = require('sequelize');
      var response = await 
-     this.sequelize.query("select count(*) from Likes where Entity_id ="+ Entity.id +" And up = false");
-     return response[0][0]['count(*)'];
+     this.sequelize.query("select * from Likes where Entity_id ="+ Entity.id +" And up =" +up);
+     return response[0];
 
     }catch(error){
          Console.log(error);
          return -1;
     }
 }
+
 
 async Likes(entity_id,user_id,upvote,history) {
      
