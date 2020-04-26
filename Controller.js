@@ -5,19 +5,23 @@ var Patient = require ('./Model/Patient.js');
 var Entity = require ('./Model/Entity.js');
 var Comment = require ('./Model/Comment.js');
 
-//var Request = require ('./Model/Request.js');
 
-const user     = new User();
-const category = new Category();
-//const patient  = new Patient();
-const entity   = new Entity();
-//const request  = new Request();
-const post     = new Post();
-const comment = new Comment();
+var user = null;
+var category = null;
+var entity = null;
+var post = null;
+var comment = null;
 
 class Controller{
      
-    constructor(){}
+    constructor(sequelize){
+      this.sequelize = sequelize;
+      user     = new User(sequelize);
+      category = new Category(sequelize);
+      entity   = new Entity(sequelize);
+      post     = new Post(sequelize);
+      comment = new Comment(sequelize);
+    }
  
 
       // connection with class user 
@@ -65,17 +69,6 @@ class Controller{
       }
 
 
-      async get_Entity_number_of_likes(Entity,up){
-        let likes = entity.getLikesNumber(Entity,up);
-        return likes;
-      }
-
-      get_Entity_likes(Entity,up){
-        let likes = entity.getLikes(Entity,up);
-        return likes;
-
-      }
-
       get_posts_by_id(user_id){
         let v ;
         v= post.getPostByUserId(user_id)     
@@ -103,6 +96,39 @@ class Controller{
         let v ;
         v=  comment.deletecomment(object)    
         return  v ;
+      }
+
+      get_post_content_by_id(post_id){
+        let content = post.getPostContentById(post_id);
+        return content;
+      }
+
+      get_comments_for_post(post_id){
+        let comments_list = comment.getCommentbyPost(post_id);
+         
+        return comments_list;
+
+      }
+      async get_Entity_number_of_likes(Entity_id,up){
+        let likes = entity.getLikesNumber(Entity_id,up);
+        return likes;
+      }
+
+      get_Entity_likes(Entity_id,up){
+        let likes = entity.getLikes(Entity_id,up);
+        return likes;
+
+      }
+
+      get_posts_by_id(user_id){
+        let v ;
+        v= post.getPostByUserId(user_id)     
+        return  v ;
+      }
+
+      async get_Categories(){
+        let Categories = category.get_Categories();
+        return Categories;
       }
 
 

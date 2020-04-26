@@ -2,21 +2,21 @@ var Entity = require ('./Entity.js');
 class Comment extends Entity{
 
     
-    constructor(){
-        super();
+    constructor(sequelize){
+        super(sequelize);
     }  
 
     async getCommentbyPost(post){
         try{
             const { QueryTypes } = require('sequelize');
-            var response = await this.sequelize.query("Select * from Comment as c inner join Entity as e on e.id = c.id where c.post_id="+ post.id,{ type: QueryTypes.SELECT});
+            var response = await this.sequelize.query("Select * from Comment as c inner join Entity as e on e.id = c.id where c.post_id="+ post,{ type: QueryTypes.SELECT});
 
             return response;
 
         }catch(error){
 
-            Console.log(error);
-            return -1;
+            Console.log('Get Comment By Post Failed');
+            return null;
 
         }
     }
@@ -29,27 +29,27 @@ class Comment extends Entity{
             var output   = await this.sequelize.query("Insert into Comment(id,post_id) values("+response[0].id +" , "+commment.post_id+")", { type: QueryTypes.INSERT });
             return response[0].id;
         }catch(error){
-            console.log(error)
-            console.log('Invalid Inputs');
-            return -1;
+            //console.log(error)
+            console.log('Create Comment Failed');
+            return null;
         }
         
        }
 
-       async deletecomment(entity) {
+       async deletecomment(entity_id) {
         try{
-          await this.sequelize.query("Delete from Comment where id = "+ entity.id);
+          await this.sequelize.query("Delete from Comment where id = "+ entity_id);
           const { QueryTypes } = require('sequelize');
-          var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity.id,{type: QueryTypes.Delete});
+          var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity_id,{type: QueryTypes.DELETE});
           return response;
     
         }catch(error){
-           console.log(error)
-           return "failed";
+           console.log('Delete Comment Failed')
+           return null;
         }
     
     }   
   
-
 }
+
 module.exports = Comment;

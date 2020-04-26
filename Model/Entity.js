@@ -1,73 +1,61 @@
 class Entity{
 
-  constructor(){
-    const Sequelize = require('sequelize');
-    this.sequelize = new Sequelize('MedicalHub', 'root', 'root', {
-        host: 'localhost',
-        dialect: 'mysql'
-    }); 
+  constructor(sequelize){
 
-    this.sequelize
-      .authenticate()
-      .then(() => {
-        console.log('Connection has been established successfully.');
-      })
-      .catch(onfierr => {
-        console.error('Unable to connect to the database:', err);
-      });
+    this.sequelize = sequelize;
+      
   }  
   
-  async getLikesNumber(Entity,up){
-       try{
-        const { QueryTypes } = require('sequelize');
-        var response = await 
-        this.sequelize.query("select count(*) from Likes where Entity_id ="+ Entity.id +" And up =" +up);
-        return response[0][0]['count(*)'];
-
-       }catch(error){
-            Console.log(error);
-            return -1;
-       }
-  }
-  // 
-
-  async getLikes(Entity,up){
-    try{
-     const { QueryTypes } = require('sequelize');
-     var response = await 
-     this.sequelize.query("select * from Likes where Entity_id ="+ Entity.id +" And up =" +up);
-     return response[0];
-
-    }catch(error){
-         Console.log(error);
-         return -1;
-    }
-}
-
 
 async Likes(entity_id,user_id,upvote,history) {
      
 
   try{
-
+    const { QueryTypes } = require('sequelize');
+    var response = null;
     if (history){
 
-    const { QueryTypes } = require('sequelize');
-    var response = await this.sequelize.query("Delete from Likes where user_id ="+user_id,{ type: QueryTypes.DELETE});
+      response = await this.sequelize.query("Delete from Likes where user_id ="+user_id,{ type: QueryTypes.DELETE});
     
     }
-    const { QueryTypes } = require('sequelize');
-    var response = await this.sequelize.query("Insert into Likes(user_id,Entity_id,up) values("+ user_id+","+entity_id+","+upvote+ ")",{ type: QueryTypes.INSERT});
+      response = await this.sequelize.query("Insert into Likes(user_id,Entity_id,up) values("+ user_id+","+entity_id+","+upvote+ ")",{ type: QueryTypes.INSERT});
     
     return response;
     }catch(error){
-      console.log(error)
-      console.log('Invalid Inputs');
-      return -1;
+      
+      console.log('Likes Failed');
+      return null;
     }
    
 
 
+}
+
+async getLikesNumber(Entity_id,up){
+  try{
+   const { QueryTypes } = require('sequelize');
+   var response = await 
+   this.sequelize.query("select count(*) from Likes where Entity_id ="+ Entity_id+" And up =" +up,{type: QueryTypes.SELECT});
+   return response[0]['count(*)'];
+
+  }catch(error){
+       Console.log('Get Likes Number Failed');
+       return null;
+  }
+}
+
+
+async getLikes(Entity_id,up){
+    try{
+        const { QueryTypes } = require('sequelize');
+        var response = await 
+        this.sequelize.query("select * from Likes where Entity_id ="+ Entity_id+" And up =" +up,{type: QueryTypes.SELECT});
+    return response;
+
+    }catch(error){
+        Console.log('Get Likes Failes');
+        return null;
+    }
 }
  
 }

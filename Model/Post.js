@@ -3,8 +3,8 @@ var Entity = require ('./Entity.js');
 class Post extends Entity{
 
     
-    constructor(){
-        super();
+    constructor(sequelize){
+        super(sequelize);
     }  
 
    async createPost(post){
@@ -15,9 +15,8 @@ class Post extends Entity{
         await this.sequelize.query("Insert into Post(id,category_id) values("+response[0].id +" , "+post.category_id +")", { type: QueryTypes.INSERT });
         return response[0].id;
     }catch(error){
-        console.log(error)
-        console.log('Invalid Inputs');
-        return -1;
+        console.log('Create Post Failed')
+        return null;
     }
    }
 
@@ -25,69 +24,35 @@ class Post extends Entity{
 async getPostByCategories(categories){
     var output = [];
     
- for (let i = 0; i < categories.length; i++) {
-     // Runs 5 times, with values of step 0 through 4.
-  
-     try{
-     
-     const { QueryTypes } = require('sequelize');
-         let post = null;
-         post = await this.sequelize.query("Select * from Post as p inner join Entity as e on p.id = e.id where  p.category_id = " + categories[i],{type: QueryTypes.SELECT});
-         //console.log(post)
-          output.push(post)
-    }catch(error){
-        console.log(error);
-        return -1;
+    for (let i = 0; i < categories.length; i++) {
+    
+        try{
+            const { QueryTypes } = require('sequelize');
+            let post = null;
+            post = await this.sequelize.query("Select e.id,e.content,e.user_id,u.lastName,u.firstName,u.role,e.created_at,e.modified_at from (Post as p inner join Entity as e on p.id = e.id ) inner join User as u on e.user_id = u.id  where  p.category_id = " + categories[i],{type: QueryTypes.SELECT});
+            output.push(post)
+        }catch(error){
+            console.log('Get Post By Category Failed');
+            return null;
+        }
     }
-}
-return output;
+    return output;
 }
 
-async deletePost(entity) {
+async deletePost(entity_id) {
     try{
-      await this.sequelize.query("Delete from Post where id = "+ entity.id);
+      await this.sequelize.query("Delete from Post where id = "+ entity_id);
       const { QueryTypes } = require('sequelize');
-      var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity.id,{type: QueryTypes.Delete});
-      return response;
+      var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity_id,{type: QueryTypes.DELETE});
+      return true;
 
     }catch(error){
-       console.log(error)
-       return "failed";
+       console.log('Delete Post Failed')
+       return false;
     }
 
 }
-/*
-    async getPostsByCategory(category){
-    var obj = [];
 
-    try{
-        const { QueryTypes } = require('sequelize');
-        
-        //var post = await this.sequelize.query("Select * from Post as p inner join Entity as e on p.id = e.id where  e.category_id = " + category_id,{type: QueryTypes.SELECT});
-        //return user;
-
-     //  categories.forEach(category => { 
-       //    async() =>{
-            var post = await this.sequelize.query("Select * from Post as p inner join Entity as e on p.id = e.id where  p.category_id = " + category,{type: QueryTypes.SELECT});
-           // obj.append[post];
-         //  }
-
-         //   var response = await this.sequelize.query("SELECT id FROM Post,Entity where id = id and Category_id = "+ categories[0],{type: QueryTypes.SELECT});
-            //var ent = [];
-         //   response.forEach(element => { 
-              //  var resp = await this.sequelize.query("SELECT * FROM Entity where id = "+  categories[0],{type: QueryTypes.SELECT});
-               // ent.append(resp);
-         //   }); 
-            //obj.append(ent);
-          //}); 
-     return post;
-    }catch(error){
-       console.log(error)
-       return null;
-   }
-
-}
-*/
 async getPostByUserId(user_id){
     try{
         
@@ -99,7 +64,22 @@ async getPostByUserId(user_id){
 
     }catch(error){
         console.log(error);
-        return -1;
+        return null;
+    }
+}
+
+async getPostContentById(post_id){
+    try{
+        
+        const { QueryTypes } = require('sequelize');
+            var content = null;
+            content = await this.sequelize.query("Select e.content,e.user_id,u.lastName,u.firstName,u.role,e.created_at,e.modified_at from Entity as e inner join User as u on e.user_id = u.id where e.id = " + post_id,{type: QueryTypes.SELECT});
+            return content;
+
+
+    }catch(error){
+        console.log(error);
+        return null;
     }
 }
 

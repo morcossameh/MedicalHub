@@ -1,9 +1,7 @@
 class User{
 
-    constructor(){
-        const database = require ('./Database.js');
-        const database_obj = new database();
-        this.sequelize = database_obj.sequelize;
+    constructor(sequelize){
+        this.sequelize = sequelize;
     }
 
     // for sign up returns true for success and false for failure
