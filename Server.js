@@ -87,6 +87,15 @@ io.on('connection', function (socket) {
 
   });
 
+  socket.on('get comment attributes', function (data) {
+     
+     cont.get_comment_attributes(data).then((result) => {
+      socket.emit('comment attributes',result);
+     });
+
+
+  });
+
   socket.on('add post', function (post) {
     
     cont.create_post(post).then((result) => {
@@ -117,70 +126,43 @@ io.on('connection', function (socket) {
  socket.on('add comment', async function (post) {
     
    var test0 = await cont.create_comment(post).then((result) => {
-     //socket.emit('comment id',result);
+
+      socket.emit('comment id',result);
    });
-   
-     entity_id = post.post_id;
-   post_atributes = {content : null ,comments :null , num_of_upVotes:null , num_of_downVotes: null, upVotes : null,downVotes : null }
   
-   var test = await  cont.get_comments_for_post(entity_id).then((result) => {     
-      post_atributes.comments = result
-
-   });
-   var test2 = await  cont.get_Entity_number_of_likes(entity_id,true).then((result1) => {
-     post_atributes.upVotes = result1;
-    });
-    
-    var test3 = await cont.get_Entity_number_of_likes(entity_id,false).then((result2) => {
-     post_atributes.downVotes = result2;
-    }); 
-
-    var test4 = await cont.get_Entity_likes(entity_id,true).then((result3) => {
-     post_atributes.upVotes = result3;
-    });
-    
-    var test5 = await cont.get_Entity_likes(entity_id,false).then((result4) => {
-     post_atributes.downVotes = result4;
-    }); 
-
-    var test6 = await cont.get_post_content_by_id(entity_id).then((result5) => {
-     post_atributes.content = result5;
-       
-    }); 
-    socket.emit('post attributes',post_atributes);
- 
-
 
 });
-  socket.on('open post',async function (entity_id) {
-    console.log(entity_id);
 
-    post_atributes = {content : null ,comments :null , num_of_upVotes:null , num_of_downVotes: null, upVotes : null,downVotes : null }
+  socket.on('open post',async function (object) {
+    var entity_id = object.entity_id;
+    var user_id   = object.user_id;
+    console.log(entity_id)
+    console.log(user_id)
+    post_atributes = {content : null ,comments :null , num_of_upVotes:null , num_of_downVotes: null, upVote : null }
   
-    var test = await  cont.get_comments_for_post(entity_id).then((result) => {     
+    var test = await  cont.get_comments_for_post(entity_id).then((result) => {  
+         
        post_atributes.comments = result
 
     });
-    var test2 = await  cont.get_Entity_number_of_likes(entity_id,true).then((result1) => {
-      post_atributes.upVotes = result1;
+    var test2 = await cont.check_If_User_Liked_Entity(entity_id,user_id).then((result1) => {
+      console.log(result1)
+      post_atributes.upVote = result1;
      });
      
-     var test3 = await cont.get_Entity_number_of_likes(entity_id,false).then((result2) => {
-      post_atributes.downVotes = result2;
-     }); 
-
      var test4 = await cont.get_Entity_likes(entity_id,true).then((result3) => {
-      post_atributes.upVotes = result3;
+      post_atributes.num_of_upVotes = result3;
      });
      
      var test5 = await cont.get_Entity_likes(entity_id,false).then((result4) => {
-      post_atributes.downVotes = result4;
+      post_atributes.num_of_downVotes = result4;
      }); 
 
      var test6 = await cont.get_post_content_by_id(entity_id).then((result5) => {
       post_atributes.content = result5;
         
      }); 
+     //console.log(post_atributes)
      socket.emit('post attributes',post_atributes);
   
   });
@@ -197,5 +179,40 @@ io.on('connection', function (socket) {
 
 
   });
+
+
+  socket.on('like or dislike', function (data) {
+    console.log('data')
+    console.log(data)
+    var entity_id = data.entity_id
+    var user_id   = data.user_id
+    var upVote    = data.upVote
+    var history   = data.history
+    console.log(data)
+    var test = cont.like_Entity(entity_id,user_id,upVote,history).then((result) => {
+        console.log(result);
+        socket.emit('validate like',result);
+    });
+
+
+
+  });
+
+  socket.on('unlike', function (data) {
+    entity_id = data.entity_id
+    user_id   = data.user_id
+    
+
+    var test = cont.unlike_Entity(entity_id,user_id).then((result) => {
+        console.log(result);
+        console.log('test')
+        socket.emit('validate like',result);
+    });
+
+
+
+  });
+
+
   
 });

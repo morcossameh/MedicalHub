@@ -40,7 +40,12 @@ class Controller{
 
       return user_id;
        
-      }    
+      } 
+      get_comment_attributes(comment_id){
+      
+       let comment = comment.getCommentInDetails(comment_id);
+       return comment; 
+      }   
 
       get_user_info(user_id){
 
@@ -74,6 +79,12 @@ class Controller{
       like_Entity(entity_id,user_id,upvote,history){
         let response = entity.Likes(entity_id,user_id,upvote,history);
 
+        return response
+      }
+
+      async unlike_Entity(entity_id,user_id){
+        let response = await entity.unLike(entity_id,user_id);
+        console.log(response)
         return response
       }
 
@@ -111,6 +122,18 @@ class Controller{
       get_post_content_by_id(post_id){
         let content = post.getPostContentById(post_id);
         return content;
+      }
+
+      async check_If_User_Liked_Entity(Entity_id,user_id){
+
+        let response = await entity.checkIfUserLikedEntity(Entity_id,user_id).then(function(result){
+        //console.log(user_id);
+        //console.log(Entity_id);
+        //console.log(result[0].up)
+        //console.log(result)
+        
+        return result ;
+      });
       }
 
       get_comments_for_post(post_id){
