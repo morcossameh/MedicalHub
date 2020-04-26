@@ -10,7 +10,7 @@ class Post extends Entity{
    async createPost(post){
     try{
         const { QueryTypes } = require('sequelize');
-        await this.sequelize.query("Insert into Entity(user_id,content,created_at, modified_at) values("+post.user_id+",'"+post.content +"', CURDATE(), CURDATE())",{ type: QueryTypes.INSERT});
+        await this.sequelize.query("Insert into Entity(user_id,content,created_at, modified_at) values("+post.user_id+",'"+post.content+"', CURDATE(), CURDATE())",{ type: QueryTypes.INSERT});
         var response = await this.sequelize.query("SELECT id FROM Entity where user_id = "+ post.user_id +" ORDER BY id DESC LIMIT 1",{type: QueryTypes.SELECT});
         await this.sequelize.query("Insert into Post(id,category_id) values("+response[0].id +" , "+post.category_id +")", { type: QueryTypes.INSERT });
         return response[0].id;
@@ -41,6 +41,7 @@ async getPostByCategories(categories){
 
 async deletePost(entity_id) {
     try{
+        console.log(entity_id)
       await this.sequelize.query("Delete from Post where id = "+ entity_id);
       const { QueryTypes } = require('sequelize');
       var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity_id,{type: QueryTypes.DELETE});
@@ -48,6 +49,7 @@ async deletePost(entity_id) {
 
     }catch(error){
        console.log('Delete Post Failed')
+       console.log(error)
        return false;
     }
 

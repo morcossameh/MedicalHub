@@ -86,13 +86,14 @@ class Controller{
         return  v ; 
         
       }
-      delete_post(){
+      delete_post(object){
+        console.log(object)
         let v ;
         v = post.deletePost(object)    
         return  v ;
       }
 
-      delete_comment(){
+      delete_comment(object){
         let v ;
         v=  comment.deletecomment(object)    
         return  v ;
