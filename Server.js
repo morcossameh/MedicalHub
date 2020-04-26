@@ -50,23 +50,29 @@ io.on('connection', function (socket) {
       clients--;
       io.sockets.emit('broadcast',{ description: clients + ' clients connected!'});
    });
-   socket.on('sign in', function (data) {
+   socket.on('sign in',async function (data) {
     console.log(data.Lastname);
 
+    var user_id = null;
 
-
-     var test = cont.Sign_in(data).then((result) => {
-
+     var test = await cont.Sign_in(data).then((result) => {
+        user_id = result;
         socket.emit('user id',result);
      });
+     
+     /*
+     var response = await cont.get_user_categories(user_id);
+     c = []
+     for (let i = 0; i < response.length; i++) {
+        c.push( response[i]['category_id']);
+     }
 
-     c = [1,2]
-
-     cont.get_posts_by_Categories(c).then((result) => {
-      socket.emit('posts',result);
+      await cont.get_posts_by_Categories(c).then((result) => {
+      socket.emit('get posts',result);
+      
      });
 
-
+    */
   });
 
   socket.on('get posts', function (data) {

@@ -41,7 +41,7 @@ async getPostByCategories(categories){
 
 async deletePost(entity_id) {
     try{
-        console.log(entity_id)
+       // console.log(entity_id)
       await this.sequelize.query("Delete from Post where id = "+ entity_id);
       const { QueryTypes } = require('sequelize');
       var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity_id,{type: QueryTypes.DELETE});

@@ -1,5 +1,5 @@
 
-const Controller = require ('/home/ahmed/MedicalHub/Controller.js');
+const Controller = require ('../Controller.js');
 
 const Test = require ('./Test.js');
 
@@ -24,10 +24,10 @@ this.sequelize
 
 const controller = new Controller(this.sequelize);
 const test = new Test(this.sequelize);
-
+/*
 test.TestWrongEmailOrPass();
 //test.TestRightEmailOrPass();
-/*test.TestGetCommentbyValidPost();
+test.TestGetCommentbyValidPost();
 test.TestGetCommentbyInvalidPost();
 test.TestCommentOnDeletedPost();
 test.TestCommentOnPost();
@@ -40,6 +40,9 @@ test.TestGetLikesForInvalidEntity();
 test.TestGetLikesForValidEntity();
 test.TestGetLikesNumberForValidEntity();
 test.TestGetLikesNumberForInvalidEntity();
-test.TestCreateUser();*/
+test.TestCreateUser();
+*/
+test.TestGetCategoriesByID();
+
 
 const pos = {id :57,category_id : 2 , user_id : 4, content : "Hello World, Eshraq zh2anaa", createdAt: '2020-04-02 10:35:00', modifiedAt : '2020-04-02 10:35:00'};

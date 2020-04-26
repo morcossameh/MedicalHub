@@ -32,6 +32,20 @@ class Test{
        }
 
     }
+
+    async TestGetCategoriesByID(){
+      const user_obj = {id :4, Lastname : "Ibrahim", Firstname : "Eshraq", email : "eshraq.ibrahim@gmail.com", password : "eshu123" 
+     , dateOfBirth : '1997/11/27', createdAt: '2020-04-02 10:35:00', modifiedAt : '2020-04-02 10:35:00', role : 1};
+ 
+      var response = await user.getUserbyCategories(user_obj.id);
+      //console.log(response[0]['category_id']);
+      if(response != null){
+          console.log("\x1b[32m%s\x1b[0m","TestWrongEmailOrPass Passed");
+      }else{
+          console.log("\x1b[31m%s\x1b[0m","TestWrongEmailOrPass Failed");
+      }
+
+   }
       
     /* test passowrd incryption*/ 
 
@@ -128,9 +142,9 @@ class Test{
      }
 
      async TestDeleteDeletedPost(){
-        var post_id = 70;
+        var post_id = 370;
         var v = await post.deletePost(post_id); 
-        if(v == false){
+        if(v != null){
           console.log("\x1b[32m%s\x1b[0m","TestDeleteDeletedPost Passed");
         }else {
           console.log("\x1b[31m%s\x1b[0m","TestDeleteDeletedPost Failed")

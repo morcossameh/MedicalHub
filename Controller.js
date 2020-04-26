@@ -48,7 +48,16 @@ class Controller{
 
         return info;
       }
-       
+
+
+      get_user_categories(user_id){
+
+        let info = user.getUserbyCategories(user_id);
+
+        return info;
+      }
+
+
       get_posts_by_Categories(Categories){
         let categories_list = post.getPostByCategories(Categories);
          
