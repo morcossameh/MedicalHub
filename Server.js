@@ -59,31 +59,32 @@ io.on('connection', function (socket) {
         user_id = result;
         socket.emit('user id',result);
      });
-     
-     /*
-     var response = await cont.get_user_categories(user_id);
-     c = []
-     for (let i = 0; i < response.length; i++) {
-        c.push( response[i]['category_id']);
-     }
+    
 
-      await cont.get_posts_by_Categories(c).then((result) => {
-      socket.emit('get posts',result);
-      
-     });
-
-    */
   });
 
   socket.on('get posts', function (data) {
-    console.log(data.Lastname);
 
-     c = [1,2]
+     c = [1,2,3,4,5,6,7,8,9,10]
      
      cont.get_posts_by_Categories(c).then((result) => {
       socket.emit('get posts',result);
      });
 
+  });
+
+  socket.on('posts',async function (data) {
+   
+    var response = await cont.get_user_categories(data);
+    c = []
+    for (let i = 0; i < response.length; i++) {
+       c.push( response[i]['category_id']);
+    }
+
+     await cont.get_posts_by_Categories(c).then((result) => {
+     socket.emit('posts',result);
+     
+    });
 
   });
 

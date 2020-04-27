@@ -67,7 +67,7 @@ class Comment extends Entity{
             var output   = await this.sequelize.query("Insert into Comment(id,post_id) values("+response[0].id +" , "+commment.post_id+")", { type: QueryTypes.INSERT });
             return response[0].id;
         }catch(error){
-            //console.log(error)
+            console.log(error)
             console.log('Create Comment Failed');
             return null;
         }
