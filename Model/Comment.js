@@ -2,24 +2,62 @@ var Entity = require ('./Entity.js');
 class Comment extends Entity{
 
     
-    constructor(){
-        super();
+    constructor(sequelize){
+        super(sequelize);
     }  
 
-    async getCommentbyPost(post){
+    async getCommentbyPost(post_id){
         try{
             const { QueryTypes } = require('sequelize');
-            var response = await this.sequelize.query("Select * from Comment as c inner join Entity as e on e.id = c.id where c.post_id="+ post.id,{ type: QueryTypes.SELECT});
+            var response = await this.sequelize.query("Select c.id  ,content,firstName,lastName,role ,u.id as userid from Comment  c inner join Post  p on p.id = c.post_id inner join Entity  e on e.id = c.id  inner join User u on u.id = e.user_id where p.id="+ post_id,{ type: QueryTypes.SELECT});
+            var comments = []
+            console.log('llop');
+            console.log(response.length);
 
+            for (let i=0;i<response.length;i++){
+                console.log(response[i]);
+            var response2 = await this.sequelize.query("Select L.user_id , c.id , L.up from Comment as c  inner join Likes as L on L.Entity_id = c.id where c.id = "+ response[i].id,{ type: QueryTypes.SELECT});
+            //comments.push(response2);
+           
+             response[i].comment_likes = response2;
+        }
+        
             return response;
 
         }catch(error){
 
-            Console.log(error);
-            return -1;
+            console.log('Get Comment By id Failed');
+            console.log(error)
+            return null;
 
         }
     }
+
+    async getCommentInDetails(comment_id){
+        try{
+            const { QueryTypes } = require('sequelize');
+            var response = await this.sequelize.query("Select c.id ,content,firstName,lastName,role ,u.id from Comment as c inner join Entity as e on e.id = c.id  inner join User as u on u.id = e.user_id where c.id="+ comment_id,{ type: QueryTypes.SELECT});
+            comments = []
+            console.log('llop');
+            console.log(response.length);
+
+            for (let i=0;i<response.length;i++){
+                console.log(response[i]);
+            var response2 = await this.sequelize.query("Select L.user_id , c.id from Comment as c  inner join Likes as L on L.id = c.id where c.id = "+ response[i].id,{ type: QueryTypes.SELECT});
+            comments.append(response2);
+        
+        }
+        console.log(comments);
+            return response;
+
+        }catch(error){
+
+            Console.log('Get Comment By id Failed');
+            return null;
+
+        }
+    }
+
 
     async createComment(commment){
         try{
@@ -30,26 +68,26 @@ class Comment extends Entity{
             return response[0].id;
         }catch(error){
             console.log(error)
-            console.log('Invalid Inputs');
-            return -1;
+            console.log('Create Comment Failed');
+            return null;
         }
         
        }
 
-       async deletecomment(entity) {
+       async deletecomment(entity_id) {
         try{
-          await this.sequelize.query("Delete from Comment where id = "+ entity.id);
+          await this.sequelize.query("Delete from Comment where id = "+ entity_id);
           const { QueryTypes } = require('sequelize');
-          var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity.id,{type: QueryTypes.Delete});
+          var response = await this.sequelize.query("Delete FROM Entity where id = "+ entity_id,{type: QueryTypes.DELETE});
           return response;
     
         }catch(error){
-           console.log(error)
-           return "failed";
+           console.log('Delete Comment Failed')
+           return null;
         }
     
     }   
   
-
 }
+
 module.exports = Comment;

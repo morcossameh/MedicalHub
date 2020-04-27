@@ -2,6 +2,10 @@
 var User = require ('./User.js');
 
 class Patient extends User{
+
+    constructor(sequelize){
+        super(sequelize);
+    }  
     
     // request to be a doctor
     async addRequest(id,image_url){
@@ -16,9 +20,6 @@ class Patient extends User{
             return false;
         }
     }
-
-
-
 
 }
 

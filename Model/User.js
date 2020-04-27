@@ -1,16 +1,14 @@
 class User{
 
-    constructor(){
-        const database = require ('./Database.js');
-        const database_obj = new database();
-        this.sequelize = database_obj.sequelize;
+    constructor(sequelize){
+        this.sequelize = sequelize;
     }
 
     // for sign up returns true for success and false for failure
     async createUser(user){
         try{
-            console.log(user);
-            console.log(user.id);
+            //console.log(user);
+            //console.log(user.id);
             const { QueryTypes } = require('sequelize');
             await this.sequelize.query("Insert into User(lastName, firstName, email, dateOfBirth, created_at, modified_at, password,role) values('"+ 
             user.Lastname+"','"+ user.Firstname +"','"+ user.email +"','"+ user.dateOfBirth +"', CURDATE(), CURDATE(),'"
@@ -21,6 +19,8 @@ class User{
             return false;
         }
     }
+
+
     // for 
     async getUserbyID(id){
         try{
@@ -29,7 +29,20 @@ class User{
             user = await this.sequelize.query("Select * from User where id = " + id,{type: QueryTypes.SELECT});
             return user[0];
         }catch(error){
-            console.log(error);
+            //console.log(error);
+            console.log('User Not Found');
+            return null;
+        }
+    }
+
+    async getUserbyCategories(id){
+        try{
+            const { QueryTypes } = require('sequelize');
+            var user = null;
+            user = await this.sequelize.query("Select category_id from user_interests where user_id = " + id,{type: QueryTypes.SELECT});
+            return user;
+        }catch(error){
+           // console.log(error);
             console.log('User Not Found');
             return null;
         }
@@ -49,7 +62,7 @@ class User{
             }
            
         }catch(error){
-            console.log(error);
+            //console.log(error);
             console.log('Email or Password is wrong');
             return null;
         }
