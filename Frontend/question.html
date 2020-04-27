@@ -29,6 +29,10 @@
 <script src="socket.io.js"></script>
 <script src="index.js"></script>
 
+<script>
+  getPost()
+</script>
+
 <body>
 
   <div class="bgimg">
@@ -38,7 +42,7 @@
           <a class="navbar-brand">Medical Hub</a>
         </div>
         <ul class="nav navbar-nav">
-          <li><a>Home</a></li>
+          <li><a href="home.html">Home</a></li>
           <li id="promotePatient" style="display: none;"><a href="promotion.html" >Promote to doctor</a></li>
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php">
@@ -109,35 +113,30 @@
         </ul>
       </div>
     </nav>
-    <div class="container">
-      <div class="panel panel-default">
-        <div class="panel-body">What is a coronavirus?</br></br>
+    <div class="container" >
+      <div id="container" class="panel panel-default" style="display: none;">
+        <div id="questionContent" class="panel-body" >What is a coronavirus?</br></br>
           <a><span class="glyphicon glyphicon-thumbs-up"></span> 14</a>&emsp;
           <a><span class="glyphicon glyphicon-thumbs-down"></span> 10</a>
           &nbsp;&nbsp;•&nbsp;&nbsp;asked by Morcos Sameh!
+          &nbsp;&nbsp;•&nbsp;&nbsp;
+          <a><span onclick="deletePost()" class="glyphicon glyphicon-trash"></span></a>
         </div>
-        <div class="panel-heading">Coronaviruses are a large family of viruses
-              that are known to cause illness ranging from the common cold to more severe diseases such as Middle East
-              Respiratory Syndrome (MERS) and Severe Acute Respiratory Syndrome (SARS).</br></br>
-              <a><span class="glyphicon glyphicon-thumbs-up"></span> 14</a>&emsp;
-              <a><span class="glyphicon glyphicon-thumbs-down"></span> 10</a>
-              &nbsp;&nbsp;•&nbsp;&nbsp;Answered by Mahmoud Hesham!
-        </div>
-        <div class="panel-heading">Coronaviruses are a large family of viruses
-              that are known to cause illness ranging from the common cold to more severe diseases such as Middle East
-              Respiratory Syndrome (MERS) and Severe Acute Respiratory Syndrome (SARS).</br></br>
-              <a><span class="glyphicon glyphicon-thumbs-up"></span> 14</a>&emsp;
-              <a><span class="glyphicon glyphicon-thumbs-down"></span> 10</a>
-              &nbsp;&nbsp;•&nbsp;&nbsp;Answered by Mahmoud Hesham!
-        </div>
-        <div class="panel-heading">
+        <div id="addComment" class="panel-heading">
           <div class="form-group">
             <label for="usr">Add a Comment:</label>
-            <textarea type="text" class="form-control" id="usr" style="height: 32px; resize: none;" oninput="auto_grow(this)"></textarea>
-            <button type="button" class="btn btn-default form-control" style="margin-top: 10px;">Add Comment</button>
+            <textarea id="addCommentText" type="text" class="form-control" id="usr" style="height: 32px; resize: none;" oninput="auto_grow(this)"></textarea>
+            <button onclick="addComment()" type="button" class="btn btn-default form-control" style="margin-top: 10px;">Add Comment</button>
           </div>
         </div>
       </div>
+    </div>
+    <div id="questionComment" class="panel-heading" style="display: none;">Coronaviruses are a large family of viruses
+      that are known to cause illness ranging from the common cold to more severe diseases such as Middle East
+      Respiratory Syndrome (MERS) and Severe Acute Respiratory Syndrome (SARS).</br></br>
+      <a><span class="glyphicon glyphicon-thumbs-up"></span> 14</a>&emsp;
+      <a><span class="glyphicon glyphicon-thumbs-down"></span> 10</a>
+      &nbsp;&nbsp;•&nbsp;&nbsp;Answered by Mahmoud Hesham!
     </div>
   </div>
 
