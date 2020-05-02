@@ -49,7 +49,7 @@ async deletePost(entity_id) {
 
     }catch(error){
        console.log('Delete Post Failed')
-       console.log(error)
+       //console.log(error)
        return false;
     }
 
@@ -65,7 +65,7 @@ async getPostByUserId(user_id){
 
 
     }catch(error){
-        console.log(error);
+        //console.log(error);
         return null;
     }
 }
@@ -80,7 +80,7 @@ async getPostContentById(post_id){
 
 
     }catch(error){
-        console.log(error);
+        //console.log(error);
         return null;
     }
 }

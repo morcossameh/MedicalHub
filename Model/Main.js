@@ -24,9 +24,9 @@ this.sequelize
 
 const controller = new Controller(this.sequelize);
 const test = new Test(this.sequelize);
-/*
+
 test.TestWrongEmailOrPass();
-//test.TestRightEmailOrPass();
+test.TestRightEmailOrPass();
 test.TestGetCommentbyValidPost();
 test.TestGetCommentbyInvalidPost();
 test.TestCommentOnDeletedPost();
@@ -41,7 +41,6 @@ test.TestGetLikesForValidEntity();
 test.TestGetLikesNumberForValidEntity();
 test.TestGetLikesNumberForInvalidEntity();
 test.TestCreateUser();
-*/
 test.TestGetCategoriesByID();
 
 

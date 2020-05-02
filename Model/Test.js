@@ -81,7 +81,7 @@ class Test{
      }
     /* Test Comment Class */
     async TestGetCommentbyValidPost(){
-        var post_id = 20;
+        var post_id = 4;
         var response = await comment.getCommentbyPost(post_id);
         if(response.length == 1){
             console.log("\x1b[32m%s\x1b[0m","TestGetCommentbyValidPost Passed");
@@ -101,7 +101,7 @@ class Test{
     }
     /*  */
     async TestCommentOnDeletedPost(){
-        var invalid_post = {user_id : 21 , post_id : 2 ,content :'eshraq m7dsh m2dr mghodha'};
+        var invalid_post = {user_id : 21 , post_id : 21 ,content :'Test 2'};
         var v = await comment.createComment(invalid_post); 
         if(v == null){
           console.log("\x1b[32m%s\x1b[0m","TestCommentOnDeletedPost Passed");
@@ -111,7 +111,7 @@ class Test{
     }
 
     async TestCommentOnPost(){
-        var invalid_post = {user_id : 21 , post_id : 21 ,content :'eshraq m7dsh m2dr mghodha'};
+        var invalid_post = {user_id : 21 , post_id : 2 ,content :'Test Comment'};
         var v = await comment.createComment(invalid_post); 
         if(v != null){
           console.log("\x1b[32m%s\x1b[0m","TestCommentOnPost Passed");
@@ -162,7 +162,7 @@ class Test{
      }
 
      async TestGetPostByID(){
-        var post_id = 62;
+        var post_id = 2;
         var v = await post.getPostContentById(post_id);
         if(v.length != 0 && v != null){
           console.log("\x1b[32m%s\x1b[0m","TestGetPostByID Passed");
