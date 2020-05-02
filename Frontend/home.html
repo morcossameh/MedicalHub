@@ -28,6 +28,10 @@
 </style>
 <script src="socket.io.js"></script>
 <script src="index.js"></script>
+<script>
+  getPosts()
+  getCategories()
+</script>
 
 <body>
 
@@ -109,43 +113,23 @@
         </ul>
       </div>
     </nav>
-    <div class="container">
-      <div id="questionForm" class="panel panel-default" hidden>
+    <div id="container" class="container">
+      <div id="questionForm" class="panel panel-default" style="display: none;">
         <div class="panel-heading">
           <div class="form-group">
             <label for="usr">Enter your Question:</label>
-            <textarea type="text" class="form-control" id="usr" style="height: 32px; resize: none;" oninput="auto_grow(this)"></textarea>
-            <select class="form-control" style="margin-top: 10px; width: calc(100%/2 - 2px); display: inline-block !important">
+            <textarea id="addQuestionText" type="text" class="form-control" id="usr" style="height: 32px; resize: none;" oninput="auto_grow(this)"></textarea>
+            <select id="categories" class="form-control" style="margin-top: 10px; width: calc(100%/2 - 2px); display: inline-block !important">
               <option value="" disabled selected>Choose a category</option>
             </select>
-            <button type="button" class="btn btn-default" style="margin-top: -1px; width: calc(100%/2 - 2px)">Add Question</button>
+            <button type="button" onclick="addPost()" class="btn btn-default" style="margin-top: -1px; width: calc(100%/2 - 2px)">Add Question</button>
           </div>
         </div>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">Question 1 Title</div>
-        <div class="panel-body">Question 1 Content</div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">Question 2 Title</div>
-        <div class="panel-body">Question 2 Content</div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">Question 3 Title</div>
-        <div class="panel-body">Question 3 Content</div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">Question 4 Title</div>
-        <div class="panel-body">Question 4 Content</div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">Question 5 Title</div>
-        <div class="panel-body">Question 5 Content</div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">Question 6 Title</div>
-        <div class="panel-body">Question 6 Content</div>
-      </div>
+      <!-- <div class="panel panel-default"> -->
+        <!-- <div class="panel-heading">Question 1 Title</div> -->
+      <div id="questionHome" class="panel panel-default panel-body" style="display: none;">Question 1 Content</div>
+      <!-- </div> -->
     </div>
   </div>
 
