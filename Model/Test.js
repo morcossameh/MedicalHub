@@ -51,11 +51,12 @@ class Test{
    }
       
     /* test passowrd incryption*/ 
-
+  
+    /* 1 => test create user */
     async TestCreateUser(){
         const user_obj = {id :4, Lastname : "Ibrahim", Firstname : "ahmed", email : "ahmedH@gmail.com", password : "eshu12" 
         , dateOfBirth : '1997/11/27', createdAt: '2020-04-02 10:35:00', modifiedAt : '2020-04-02 10:35:00', role : 1};
-        var response = await user.createUser(user_obj);
+        var response = await user.createUserWithIncryptedPassword(user_obj);
         console.log(response)
         if(response != null){
             console.log("\x1b[32m%s\x1b[0m","TestCreateUser Passed");
@@ -65,13 +66,11 @@ class Test{
  
      }
 
-    /* Enter right username and password when logging in. */
+    /* 2 => Enter right username and password when logging in. */
     async TestRightEmailOrPass(){
-        const user_obj = {id :4, Lastname : "Ibrahim", Firstname : "Eshraq", email : "ahmedH@gmail.com", password : "eshu12" 
+        const user_obj = {id :4, Lastname : "Ibrahim", Firstname : "Eshraq", email : "ahmedH@gmail.com", password : "eshu13" 
         , dateOfBirth : '1997/11/27', createdAt: '2020-04-02 10:35:00', modifiedAt : '2020-04-02 10:35:00', role : 1};
-        const response = await user.validUser(user_obj.email,user_obj.password).then(async function(result){
-        setTimeout(() => {  console.log("World!"); 
-
+        const response = await user.validUserWithIncryptedPassword(user_obj.email,user_obj.password).then(async function(result){
         if(result != null){
           console.log(result)
 
@@ -79,7 +78,7 @@ class Test{
         }else{
             console.log("\x1b[31m%s\x1b[0m","TestRightEmailOrPass Failed");
         }
-      }, 2000);
+     
         });
      }
     /* Test Comment Class */
