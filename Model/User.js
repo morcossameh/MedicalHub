@@ -68,6 +68,52 @@ class User{
         }
     }  
 
+    async searchByUserName(user_name) {
+     
+
+        try{
+          const { QueryTypes } = require('sequelize');
+          user_name = user_name + " "
+          let splitter =  user_name.split(" ");
+          let firstName = splitter[0];
+          let lastName = " ";
+          if(splitter.length > 1){
+
+          lastName = splitter[1];
+
+          }
+          let response = null;
+          let output = {Doctors : null , users : null};
+           response = await this.sequelize.query("select * from User where LOWER(firstName) like LOWER('%"+firstName+"%') and LOWER(lastName) like ('%"+lastName+"%')",{ type: QueryTypes.SELECT});
+           let Doctors = []
+           let Doctor = null;
+           let users = []
+           for (let i=0;i< response.length;i++){
+               if (response[i].role == 2){
+               Doctor = await this.sequelize.query("select * from Doctor where doctor_id =" + response[i].id+"",{ type: QueryTypes.SELECT});
+               response[i].rating= Doctor[0].rating;
+               response.doctor_id = Doctor[0].doctor_id;
+               Doctors.push(response[i])
+               } else if (response[i].role = 1) {
+                users.push(response[i]);
+               }
+            }
+                  /* console.log('posts')
+           console.log(posts);
+           console.log('comments')
+           console.log(comments); */
+           output.Doctors = Doctors;
+           output.users = users; 
+          return output;
+          }catch(error){
+            console.log(error)
+            console.log('error in search sentence in users');
+            return null;
+          }
+         
+      }
+      
+
 }
 
 module.exports = User;

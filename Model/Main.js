@@ -41,8 +41,10 @@ test.TestGetLikesForValidEntity();
 test.TestGetLikesNumberForValidEntity();
 test.TestGetLikesNumberForInvalidEntity();
 test.TestCreateUser();
-*/
 test.TestGetCategoriesByID();
+*/
+test.TestSearchWithEntityContent();
+test.TestSearchWithUserName();
 
 
 const pos = {id :57,category_id : 2 , user_id : 4, content : "Hello World, Eshraq zh2anaa", createdAt: '2020-04-02 10:35:00', modifiedAt : '2020-04-02 10:35:00'};

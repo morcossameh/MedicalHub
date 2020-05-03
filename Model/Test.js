@@ -209,5 +209,26 @@ class Test{
         }
      }
 
+     async TestSearchWithEntityContent(){
+      var response = await entity.searchByContent("ahmed");
+      //console.log(response)
+      if(response != null){
+          console.log("\x1b[32m%s\x1b[0m","TestSearchWithEntityContent Passed");
+      }else{
+          console.log("\x1b[31m%s\x1b[0m","TestSearchWithEntityContent Failed");
+      }
+
+   }
+
+   async TestSearchWithUserName(){
+    var response = await user.searchByUserName("morcos");
+    //console.log(response)
+    if(response != null){
+        console.log("\x1b[32m%s\x1b[0m","TestSearchWithUserName Passed");
+    }else{
+        console.log("\x1b[31m%s\x1b[0m","TestSearchWithUserName Failed");
+    }
+
+ }
 }
 module.exports = Test;
