@@ -2,11 +2,13 @@ const User = require ('./User.js');
 const Comment = require ('./Comment.js');
 const Post = require ('./Post.js');
 const Entity = require ('./Entity.js');
+const Doctor   = require('./Doctor.js')
 
 var user = null;
 var comment = null;
 var post = null;
 var entity = null;
+var doctor = null ;
 
 class Test{
 
@@ -15,6 +17,7 @@ class Test{
         comment = new Comment(sequelize);
         entity = new Entity(sequelize);
         post = new Post(sequelize);
+        doctor = new Doctor(sequelize)
         this.sequelize = sequelize;
     }
     /* Test User Class */
@@ -209,7 +212,9 @@ class Test{
         }
      }
 
-     async TestSearchWithEntityContent(){
+     /* Test search */
+
+     async TestSearchWithEntityContent(){ 
       var response = await entity.searchByContent("ahmed");
       //console.log(response)
       if(response != null){
@@ -218,7 +223,7 @@ class Test{
           console.log("\x1b[31m%s\x1b[0m","TestSearchWithEntityContent Failed");
       }
 
-   }
+     }
 
    async TestSearchWithUserName(){
     var response = await user.searchByUserName("morcos");
@@ -230,5 +235,18 @@ class Test{
     }
 
  }
+  /* test doctor rating */
+  async TestDOctorRating(){
+    var response = await doctor.updateRating(1,false);
+    //console.log(response)
+    if(response != null){
+        console.log("\x1b[32m%s\x1b[0m","TestDOctorRating Passed");
+    }else{
+        console.log("\x1b[31m%s\x1b[0m","TestDOctorRating Failed");
+    }
+
+ }
+
+
 }
 module.exports = Test;
