@@ -93,6 +93,49 @@ async getLikes(Entity_id,up){
         return null;
     }
 }
+
+
+async searchByContent(search_sentence) {
+     
+
+  try{
+    const { QueryTypes } = require('sequelize');
+    let response = null;
+    let output = {posts : null , comments : null};
+     response = await this.sequelize.query("select * from Entity where content like '%"+search_sentence+"%'",{ type: QueryTypes.SELECT});
+     let posts = []
+     let post = null;
+     let comments = []
+     for (let i=0;i< response.length;i++){
+       post = await this.sequelize.query("select * from Post where id =" + response[i].id+"",{ type: QueryTypes.SELECT});
+       
+       if(post.length ==0){ 
+        let comment = await this.sequelize.query("select * from Comment where id =" + response[i].id+"",{ type: QueryTypes.SELECT});
+        response[i].post_id = comment[0].post_id ;
+        comments.push(response[i]);
+
+       }else{
+        response[i].category_id = post[0].category_id ;
+        posts.push(response[i])
+
+       }
+
+     } 
+     /* console.log('posts')
+     console.log(posts);
+     console.log('comments')
+     console.log(comments); */
+     output.posts = posts;
+     output.comments = comments; 
+    return output;
+    }catch(error){
+      console.log(error)
+      console.log('error in search sentence in entity');
+      return null;
+    }
+   
+}
+
  
 }
 
