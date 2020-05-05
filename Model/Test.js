@@ -2,11 +2,13 @@ const User = require ('./User.js');
 const Comment = require ('./Comment.js');
 const Post = require ('./Post.js');
 const Entity = require ('./Entity.js');
+const Request = require ('./Request.js');
 
 var user = null;
 var comment = null;
 var post = null;
 var entity = null;
+var request = null;
 
 class Test{
 
@@ -15,8 +17,11 @@ class Test{
         comment = new Comment(sequelize);
         entity = new Entity(sequelize);
         post = new Post(sequelize);
+        request = new Request(sequelize);
         this.sequelize = sequelize;
     }
+
+
     /* Test User Class */
 
     /*  Enter wrong username or password when logging in. */
@@ -209,5 +214,89 @@ class Test{
         }
      }
 
+     async addRequest(){
+      const q = {user_id : 8,link:'http://link.com' , status : 1};
+      var v = await request.addRequest(q);
+      if(v != null){
+        console.log("\x1b[32m%s\x1b[0m","addRequest Passed");
+      }else {
+        console.log("\x1b[31m%s\x1b[0m","addRequest Failed");
+      }
+   }
+   async addDuplicateRequest(){
+    const q = {user_id : 6,link:'http://link.com' , status : 1};
+    var v = await request.addRequest(q);
+    if(v == null){
+       console.log("\x1b[32m%s\x1b[0m","addDuplicateRequest Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","addDuplicateRequest Failed");
+    }
+ }
+   async deleteRequest(){
+    const q = {user_id : 8,link:'http://link.com' , status : 1};
+    var v = await request.deleteRequest(q.user_id);
+    if(v == null){
+       console.log("\x1b[32m%s\x1b[0m","deleteRequest Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","deleteRequest Failed");
+    }
+   }
+
+   async deleteDeletedRequest(){
+    const q = {user_id : 8,link:'http://link.com' , status : 1};
+    var v = await request.deleteRequest(q.user_id);
+    if(v == null){
+       console.log("\x1b[32m%s\x1b[0m","deleteDeletedRequest Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","deleteDeletedRequest Failed");
+    }
+   }
+
+   async testChangeStatus(){
+    var v = await request.changeStatus(10,2);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testChangeStatus Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testChangeStatus Failed");
+    }
+   }
+
+   async testgetRequestDetails(){
+    var v = await request.getRequestDetails(10);
+    console.log(v);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testgetRequestDetails Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testgetRequestDetails Failed");
+    }
+   }
+   async testgetRequestDetailsByUser(){
+    var v = await request.getRequestUser(7);
+    console.log(v);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testgetRequestDetails Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testgetRequestDetails Failed");
+    }
+
+   }
+   async testGetRequests(){
+    var v = await request.getRequests();
+    console.log(v);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testgetRequestDetails Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testgetRequestDetails Failed");
+    }
+   }
+   async testGetUserComments(){
+    var v = await comment.getUserComments(22);
+    console.log(v);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testGetUserComments Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testGetUserComments Failed");
+    }
+   }
 }
 module.exports = Test;

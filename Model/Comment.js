@@ -86,7 +86,19 @@ class Comment extends Entity{
            return null;
         }
     
-    }   
+    }
+    
+    async getUserComments(id){
+        try{
+            const { QueryTypes } = require('sequelize');
+            var response = await this.sequelize.query("Select * FROM Entity as e Inner join Comment as c on e.id = c.id where e.user_id = "+ id,{type: QueryTypes.SELECT});
+            return response;
+      
+          }catch(error){
+             console.log('getUserComments Failed')
+             return null;
+          }
+    }
   
 }
 
