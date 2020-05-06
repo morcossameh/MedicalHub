@@ -104,6 +104,25 @@ io.on('connection', function (socket) {
     });
 
  });
+
+ socket.on('add request', function (request) {
+    
+  cont.add_request(request).then((result) => {
+    console.log(result);
+    socket.emit('request result',result);
+  });
+
+});
+
+socket.on('user request', function (user_id) {
+    
+  cont.get_user_request(user_id).then((result) => {
+    console.log(result);
+    socket.emit('request',result);
+  });
+
+});
+
  socket.on('delete post', function (post) {
     
     cont.delete_post(post).then((result) => {
@@ -236,12 +255,19 @@ io.on('connection', function (socket) {
      });
      
      var test4 = await cont.get_doctor_votes(user_id).then((result3) => {
+       console.log(result3);
+       console.log("here");
        if(result3.length != 0){
-        profile_atributes.num_of_upVotes = result3.upvotes;
-        profile_atributes.num_of_downVotes = result3.downvotes;
+         
+        profile_atributes.num_of_upVotes = result3[0].upvotes;
+        profile_atributes.num_of_downVotes = result3[0].downvotes;
        }
    
      });
+
+
+
+
      
      socket.emit('profile attributes',profile_atributes);
   
@@ -267,6 +293,8 @@ io.on('connection', function (socket) {
     socket.emit('search results',search_results);
   
   });
+
+
 
 
   

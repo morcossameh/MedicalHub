@@ -27,7 +27,7 @@ class Doctor{
         try{
             
             const { QueryTypes } = require('sequelize');
-                let response = await this.sequelize.query("Select * From Doctor where id ="+doctor_id,{ type: QueryTypes.SELECT});
+                let response = await this.sequelize.query("Select * From Doctor where doctor_id ="+doctor_id,{ type: QueryTypes.SELECT});
     
             return response;
         }catch(error){

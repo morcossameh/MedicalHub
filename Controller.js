@@ -5,6 +5,7 @@ var Patient = require ('./Model/Patient.js');
 var Entity = require ('./Model/Entity.js');
 var Comment = require ('./Model/Comment.js');
 var Doctor = require('./Model/Doctor.js');
+var Request = require('./Model/Request.js');
 
 var user = null;
 var category = null;
@@ -12,6 +13,7 @@ var entity = null;
 var post = null;
 var comment = null;
 var doctor = null;
+var request = null;
 
 class Controller{
      
@@ -23,6 +25,7 @@ class Controller{
       post     = new Post(sequelize);
       comment = new Comment(sequelize);
       doctor = new Doctor(sequelize);
+      request = new Request(sequelize);
     }
  
 
@@ -188,6 +191,47 @@ class Controller{
       search_user(search_sentence){
         let v;
         v = user.searchByUserName(search_sentence);
+        return v;
+      }
+
+      add_request(request2){
+        let v;
+        v = request.addRequest(request2);
+        
+        return v;
+
+      }
+
+    
+      delete_request(id){
+        let v;
+        v = request.deleteRequest(id);
+        return v;
+
+      }
+
+      change_status(user_id,id,status){
+        let v;
+        v = request.changeStatus(user_id,id,status);
+        return v;
+
+      }
+
+      get_request_details(id){
+        let v;
+        v = request.getRequestDetails(id);
+        return v;
+      }
+
+      get_user_request(id){
+        let v;
+        v = request.getRequestUser(id);
+        return v;
+      }
+
+      get_requests(){
+        let v;
+        v = request.getRequests();
         return v;
       }
 
