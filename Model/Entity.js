@@ -111,9 +111,12 @@ async searchByContent(search_sentence) {
        
        if(post.length ==0){ 
         let comment = await this.sequelize.query("select * from Comment where id =" + response[i].id+"",{ type: QueryTypes.SELECT});
-        response[i].post_id = comment[0].post_id ;
-        comments.push(response[i]);
-
+        if(comment.length != 0){
+          response[i].post_id = comment[0].post_id ;
+          comments.push(response[i]);
+  
+        }
+      
        }else{
         response[i].category_id = post[0].category_id ;
         posts.push(response[i])

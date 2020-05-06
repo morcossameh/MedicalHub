@@ -4,13 +4,14 @@ var User = require ('./Model/User.js');
 var Patient = require ('./Model/Patient.js');
 var Entity = require ('./Model/Entity.js');
 var Comment = require ('./Model/Comment.js');
-
+var Doctor = require('./Model/Doctor.js');
 
 var user = null;
 var category = null;
 var entity = null;
 var post = null;
 var comment = null;
+var doctor = null;
 
 class Controller{
      
@@ -21,6 +22,7 @@ class Controller{
       entity   = new Entity(sequelize);
       post     = new Post(sequelize);
       comment = new Comment(sequelize);
+      doctor = new Doctor(sequelize);
     }
  
 
@@ -164,6 +166,30 @@ class Controller{
         return Categories;
       }
 
+      get_user_comments(user_id){
+        let v;
+        v = comment.getUserComments(user_id)
+        return v;
+      }
+
+      get_doctor_votes(doctor_id){
+        let v;
+        v = doctor.getVotesForDoctor(doctor_id);
+        return v;
+      }
+
+      search_entity(search_sentence){
+        let v;
+        v = entity.searchByContent(search_sentence);
+        return v;
+
+      }
+
+      search_user(search_sentence){
+        let v;
+        v = user.searchByUserName(search_sentence);
+        return v;
+      }
 
 }
 module.exports = Controller;

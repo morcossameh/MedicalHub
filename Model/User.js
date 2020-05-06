@@ -91,9 +91,13 @@ class User{
            for (let i=0;i< response.length;i++){
                if (response[i].role == 2){
                Doctor = await this.sequelize.query("select * from Doctor where doctor_id =" + response[i].id+"",{ type: QueryTypes.SELECT});
-               response[i].rating= Doctor[0].rating;
-               response.doctor_id = Doctor[0].doctor_id;
-               Doctors.push(response[i])
+               if(Doctor.length != 0){
+                response[i].upvotes= Doctor[0].upvotes;
+                response[i].downvotes= Doctor[0].downvotes;
+                response.doctor_id = Doctor[0].doctor_id;
+                Doctors.push(response[i])
+               }
+              
                } else if (response[i].role = 1) {
                 users.push(response[i]);
                }
@@ -171,6 +175,8 @@ class User{
             return null;
         }
     }  
+
+
 
 }
 

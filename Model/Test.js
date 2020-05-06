@@ -2,21 +2,15 @@ const User = require ('./User.js');
 const Comment = require ('./Comment.js');
 const Post = require ('./Post.js');
 const Entity = require ('./Entity.js');
-<<<<<<< HEAD
 const Request = require ('./Request.js');
-=======
 const Doctor   = require('./Doctor.js')
->>>>>>> 0f1408e98706bc99f4a0f18ae070a1c50f732a2c
-
 var user = null;
 var comment = null;
 var post = null;
 var entity = null;
-<<<<<<< HEAD
 var request = null;
-=======
 var doctor = null ;
->>>>>>> 0f1408e98706bc99f4a0f18ae070a1c50f732a2c
+
 
 class Test{
 
@@ -25,11 +19,8 @@ class Test{
         comment = new Comment(sequelize);
         entity = new Entity(sequelize);
         post = new Post(sequelize);
-<<<<<<< HEAD
         request = new Request(sequelize);
-=======
         doctor = new Doctor(sequelize)
->>>>>>> 0f1408e98706bc99f4a0f18ae070a1c50f732a2c
         this.sequelize = sequelize;
     }
 
