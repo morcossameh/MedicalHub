@@ -84,7 +84,7 @@ class User{
           }
           let response = null;
           let output = {Doctors : null , users : null};
-           response = await this.sequelize.query("select * from User where LOWER(firstName) like LOWER('%"+firstName+"%') and LOWER(lastName) like ('%"+lastName+"%')",{ type: QueryTypes.SELECT});
+           response = await this.sequelize.query("select * from User where LOWER(firstName) like LOWER('%"+firstName+"%') and LOWER(lastName) like ('%"+lastName+"%') or LOWER(lastName) like ('%"+firstName+"%') ",{ type: QueryTypes.SELECT});
            let Doctors = []
            let Doctor = null;
            let users = []

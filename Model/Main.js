@@ -52,9 +52,9 @@ test.testChangeStatus();
 test.testgetRequestDetails();
 test.testgetRequestDetailsByUser();
 test.testGetRequests();
-*/
 test.testGetUserComments();
-
+test.TestLikeDoctorPost()*/
+test.TestUnLikeDoctorPost();
 
 
 

@@ -4,6 +4,8 @@ const Post = require ('./Post.js');
 const Entity = require ('./Entity.js');
 const Request = require ('./Request.js');
 const Doctor   = require('./Doctor.js')
+
+
 var user = null;
 var comment = null;
 var post = null;
@@ -336,6 +338,27 @@ class Test{
 
  }
 
+  /* test like a doctor post */
+  async TestLikeDoctorPost(){
+    var response = await entity.Likes(6,28,true,true);
+    //console.log(response)
+    if(response != null){
+        console.log("\x1b[32m%s\x1b[0m","TestDOctorRating Passed");
+    }else{
+        console.log("\x1b[31m%s\x1b[0m","TestDOctorRating Failed");
+    }
 
+ }
+ /* test undo like to a doctor post  */ 
+ async TestUnLikeDoctorPost(){
+  var response = await entity.unLike(1,28);
+  //console.log(response)
+  if(response != null){
+      console.log("\x1b[32m%s\x1b[0m","TestDOctorRating Passed");
+  }else{
+      console.log("\x1b[31m%s\x1b[0m","TestDOctorRating Failed");
+  }
+
+}
 }
 module.exports = Test;
