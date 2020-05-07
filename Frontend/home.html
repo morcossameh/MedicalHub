@@ -44,12 +44,8 @@
         <ul class="nav navbar-nav">
           <li class="active"><a>Home</a></li>
           <li id="promotePatient" style="display: none;"><a href="promotion.html">Promote to doctor</a></li>
+          <li><a href="search.html">Search</a></li>
         </ul>
-        <form class="navbar-form navbar-left" action="/action_page.php">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-          </div>
-        </form>
         <ul id="navWithoutUser" class="nav navbar-nav navbar-right" >
           <li><a href="signup.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
           <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -96,7 +92,7 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <p class="text-center">
-                        <span class="glyphicon glyphicon-star icon-size">54</span>
+                        <span id="masterRateValue" class="glyphicon glyphicon-star icon-size">54</span>
                       </p>
                     </div>
                     <div class="col-lg-6  ">
@@ -114,6 +110,7 @@
       </div>
     </nav>
     <div id="container" class="container">
+      <div id="doctorNotify" class="panel panel-default panel-body" style="display: none; text-align: center;">Congrats, you are now a Doctor 🎉🎉</div>
       <div id="questionForm" class="panel panel-default" style="display: none;">
         <div class="panel-heading">
           <div class="form-group">

@@ -29,9 +29,7 @@
 <script src="socket.io.js"></script>
 <script src="index.js"></script>
 <script>
-  // initProfile()
-  // getCategories()
-  getUserPosts()
+  // initSearchPage()
 </script>
 
 <body>
@@ -45,9 +43,9 @@
         <ul class="nav navbar-nav">
           <li><a href="home.html">Home</a></li>
           <li id="promotePatient" style="display: none;"><a href="promotion.html">Promote to doctor</a></li>
-          <li><a href="search.html">Search</a></li>
+          <li class="active"><a href="search.html">Search</a></li>
         </ul>
-        <ul id="navWithoutUser" class="nav navbar-nav navbar-right">
+        <ul id="navWithoutUser" class="nav navbar-nav navbar-right" >
           <li><a href="signup.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
           <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
@@ -67,11 +65,10 @@
                         <span class="glyphicon glyphicon-user icon-size"></span>
                       </p>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6  ">
                       <p class="text-left"><strong class="fullname"></strong></p>
                       <p class="text-left">
-                        <button href="home.html" class="btn btn-default btn-block btn-sm"
-                          onclick="logout()">Logout</button>
+                        <button href="home.html" class="btn btn-default btn-block btn-sm" onclick="logout()">Logout</button>
                       </p>
                     </div>
                   </div>
@@ -111,17 +108,23 @@
         </ul>
       </div>
     </nav>
-    <div class="container" style="display: none;">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <h1 id="userName" style="float: left;">Dr. Morcos Sameh</h1>
-          <h2 id="drRate" class="text-right" style="display: none;"><span id="rateValue" class="text-right glyphicon glyphicon-star icon-size">54</span></h2>
-        </div>
-        <div id="userInfo" class="panel-heading">Date of Birth: 1997/06/03</br># of posts: 17</br># of comments: 43
+    <div id="container" class="container">
+      <div id="questionForm" class="panel panel-default" style="display: none;">
+        <div class="panel-heading">
+          <div class="form-group">
+            <textarea id="searchText" type="text" class="form-control" style="margin-top: 0px; height: 34px; resize: none; width: calc(100%*7/8 - 4px); float: left;" oninput="auto_grow(this)"></textarea>
+            <div style="margin-top: 10px; width: 5px; float: left;"></div>
+            <select id="searchBy" class="form-control" style="margin-top: 10px; width: calc(100%*1/8 - 4px);">
+              <option value="1" selected>post</option>
+              <option value="2" >user</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div id="questionHome" class="panel panel-default panel-body" style="display: none;">Question 1 Content</div>
+      <div id="searchResult">
+      </div>
     </div>
+  </div>
 
 </body>
 
