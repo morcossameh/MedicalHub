@@ -16,13 +16,13 @@ var user = getCookie("user")
 
 if(user) {
   const userJson = JSON.parse(user)
-  console.log(userJson)
-  if(getCookie("doctorNotification") === "true") {
-    $(document).ready(function(){
-      $("#doctorNotify").show();
-    })
-    document.cookie = "doctorNotification=;expires=Thu, 01 Jan 1970 00:00:01 GMT"
-  }
+  console.log(userJson)	
+	  if(getCookie("doctorNotification") === "true") {	
+	    $(document).ready(function(){	
+	      $("#doctorNotify").show();	
+	    })	
+	    document.cookie = "doctorNotification=;expires=Thu, 01 Jan 1970 00:00:01 GMT"	
+	  }
   if(userJson.role === 1) {
     $(document).ready(function(){
       $("#navWithoutUser").hide();
@@ -53,13 +53,23 @@ if(user) {
     $(document).ready(function(){
       $("#navWithoutUser").hide();
       $("#navDoctor").show();
-      $(".fullname").text("Dr. " + userJson.firstName);
-      $(".fullname").click(function(){
-        openProfile()
-        return false;
-      });
-      $("#masterRateValue").text((userJson.upvotes - userJson.downvotes))
-      $("#questionForm").show()
+      $(".fullname").text("Dr. " + userJson.firstName);	
+	      $(".fullname").click(function(){	
+	        openProfile()	
+	        return false;	
+	      });	
+	      $("#masterRateValue").text((userJson.upvotes - userJson.downvotes))	
+	      $("#questionForm").show()
+    }); 
+  }
+  else if (userJson.role === 3) {
+    $(document).ready(function(){
+      $("#navWithoutUser").hide();
+      $("#navAdmin").show();
+      $("#promotePatient").hide();
+      $(".fullname").text(userJson.firstName);
+      $("#questionForm").show();
+      $("#showRequests").show();
     });
   }
 } else {
@@ -67,11 +77,37 @@ if(user) {
     $("#navWithoutUser").show();
     $("#navDoctor").hide();
     $("#navPatient").hide();
+    $("#navAdmin").hide();
     $("#promotePatient").hide();
   });
 }
 
-let url = "http://102.185.25.122:3000"
+let url = "http://localhost:3000"
+
+function goToRequest(id){
+  document.cookie = "Request=" + id;
+  window.location.href = "/request_page.html";
+}
+
+function getRequests(){
+  let socket = io(url);
+  socket.emit('get requests',"hi");
+  socket.on('requests',function(data){  
+    if(data){
+      console.log(data[0].firstName);
+      $(document).ready(function(){
+        for(let i = 0; i < data.length; i++) {
+            let clonedVersion = $("#userRequest").clone(true)
+            clonedVersion.html("<div onclick='goToRequest(" + data[i].id + ")'>" + data[i].firstName + " "+ data[i].lastName + "</div>");
+            $("#container").append(clonedVersion)
+            clonedVersion.show();
+        
+        }
+      });
+      
+    }
+  });
+}
 
 function getPosts() {
   let socket = io(url);
@@ -103,9 +139,6 @@ function goToPost(id) {
   window.location.href = "/question.html";
 }
 
-// open profile
-// profile attributes
-
 function getPost() {
   let postId = getCookie("post")
   let socket = io(url);
@@ -133,7 +166,7 @@ function getPost() {
         + data.num_of_downVotes.length
         postContent += upVote === 0 ? "</a>" : ""
         postContent += "&nbsp;&nbsp;•&nbsp;&nbsp;Asked by "
-        postContent += data.content[0].role === 2 ? "Dr. " : ""
+        postContent += data.content[0].role === 2 ? "Dr. " : ""	
         postContent += data.content[0].firstName + " "
         + data.content[0].lastName + "!"
         postContent += user && data.content[0].user_id === JSON.parse(user).id ? '&nbsp;&nbsp;•&nbsp;&nbsp;<a><span onclick="deletePost()" class="glyphicon glyphicon-trash"></span></a>' : "";
@@ -153,9 +186,8 @@ function getPost() {
           + commentVotes.dislikes
           commentContent += commentVotes.liked === 0 ? "</a>" : ""
           commentContent += "&nbsp;&nbsp;•&nbsp;&nbsp;Answered by "
-          commentContent += data.comments[i].role === 2 ? "Dr. " : ""
-          commentContent += data.comments[i].firstName + " "
-          + data.comments[i].lastName + "!"
+          commentContent += data.comments[i].role === 2 ? "Dr. " : ""	
+          commentContent += data.comments[i].firstName + " "          + data.comments[i].lastName + "!"
           commentContent += user && data.comments[i].userid === JSON.parse(user).id ? '&nbsp;&nbsp;•&nbsp;&nbsp;<a><span onclick="deleteComment(' + data.comments[i].id + ')" class="glyphicon glyphicon-trash"></span></a>' : "";
           clonedVersion.html(commentContent)
           $("#container").append(clonedVersion)
@@ -358,7 +390,11 @@ function login() {
   console.log(signinValues)
   socket.emit('sign in', signinValues);
   socket.on('user id', function(data) {
+    console.log(data);
+    console.log('ahmed')
     if(data) {
+      //console.log(data);
+     //console.log('ahmed')
       document.cookie = "user=" + JSON.stringify(data);
       window.location.href = "/home.html";
     } else {
@@ -394,17 +430,6 @@ function auto_grow(element) {
   element.style.height = (element.scrollHeight)+"px";
   search()
 }
-
-// function initProfile() {
-//   const userJson = JSON.parse(user)
-//   $(document).ready(function() {
-//     $("#userName").text(userJson.firstName + " " + userJson.lastName)
-//     userInfo = "Date of Birth: " + userJson.dateOfBirth
-//     $("#userInfo").html(userInfo)
-//     $(".container").show()
-//   });
-// }
-
 function openProfile() {
   window.location.href = "/profile.html";
   goToProfileById(JSON.parse(user).id)
@@ -456,6 +481,7 @@ function search() {
   let socket = io(url);
   socket.emit("search", searchData);
   socket.on("search results",function(data) {
+    console.log(data)
     // console.log(data.sentence === searchData.content)
     if(data.sentence === $("#searchText").val().replace('\'', "\\'")) {
       console.log(data);
