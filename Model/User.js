@@ -54,6 +54,11 @@ class User{
             const { QueryTypes } = require('sequelize');
             var user = null;
             user = await this.sequelize.query("Select * from User where email = '" + email +"' and password = '"+ pass +"'",{type: QueryTypes.SELECT});
+            if(user[0].role == 2){
+               var user2 = await this.sequelize.query("Select * from Doctor where doctor_id = " +user[0].id,{type: QueryTypes.SELECT});
+               user[0].upvotes = user2[0].upvotes;
+               user[0].downvotes = user2[0].downvotes;
+            }
             if(user.length == 0){
                 console.log('Email or Password is wrong');
                 return null;

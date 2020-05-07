@@ -42,6 +42,9 @@ class Request{
             this.sequelize.query("update Request SET status = "+ status + " where id = " + id,{type: QueryTypes.UPDATE});
             if(status == 2){
                 var temp = await this.sequelize.query("update User SET role = 2 where id ="+ user_id,{type: QueryTypes.UPDATE});
+            }else{
+                var response = await 
+                this.sequelize.query("delete from Request where user_id ="+ user_id ,{type: QueryTypes.DELETE});
             }
         return response;
     

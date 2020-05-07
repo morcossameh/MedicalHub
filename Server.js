@@ -118,10 +118,27 @@ socket.on('user request', function (user_id) {
     
   cont.get_user_request(user_id).then((result) => {
     console.log(result);
-    socket.emit('request',result);
+    if(result.length != 0){
+      socket.emit('request',result[0].status);
+    }else{
+      socket.emit('request',null);
+    }
+    
   });
 
 });
+
+socket.on('get requests', function (post) {
+    
+  cont.get_requests().then((result) => {
+    console.log(result)
+    socket.emit('requests',result);
+  });
+
+
+});
+
+
 
  socket.on('delete post', function (post) {
     
