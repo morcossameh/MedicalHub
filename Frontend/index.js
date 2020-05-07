@@ -87,6 +87,8 @@ let url = "http://localhost:3000"
 function goToRequest(id){
   document.cookie = "Request=" + id;
   window.location.href = "/request_page.html";
+  console.log(id);
+  console.log('test request')
 }
 
 function getRequests(){
@@ -95,6 +97,7 @@ function getRequests(){
   socket.on('requests',function(data){  
     if(data){
       console.log(data[0].firstName);
+      console.log('teste test')
       $(document).ready(function(){
         for(let i = 0; i < data.length; i++) {
             let clonedVersion = $("#userRequest").clone(true)
@@ -468,6 +471,71 @@ function getUserPosts() {
     }
   });
 }
+function acceptRequest(){
+  let socket = io(url);
+  console.log('accept request ')
+  // let user_id = user ? JSON.parse(user).id : -1;
+  var request_id = getCookie("Request")
+  console.log(request_id);
+  socket.emit("accept request", request_id);
+  socket.on("request accepted",function(data) { 
+   console.log(data)
+    if(data) {
+      //console.log(data);
+     //console.log('ahmed')
+     // document.cookie = "user=" + JSON.stringify(data);
+      window.location.href = "/requests_page.html";
+    } else {
+      alert("error accurs");
+    }
+
+  });
+
+}
+
+function rejectRequest(){
+  let socket = io(url);
+  console.log('reject request ')
+  // let user_id = user ? JSON.parse(user).id : -1;
+  var request_id = getCookie("Request")
+  console.log(request_id);
+  socket.emit("reject request", request_id);
+  socket.on("request rejected",function(data) { 
+   console.log(data)
+    if(data) {
+      //console.log(data);
+     //console.log('ahmed')
+     // document.cookie = "user=" + JSON.stringify(data);
+      window.location.href = "/requests_page.html";
+    } else {
+      alert("error accurs");
+    }
+
+  });
+
+}
+
+function getRequestInfo() {
+  let socket = io(url);
+  // let user_id = user ? JSON.parse(user).id : -1;
+  var request_id = getCookie("Request")
+  socket.emit("get request", request_id);
+  socket.on("request info",function(data) {
+    if(data) {
+      console.log(data[0]);
+      console.log('test request data')
+      
+      $("#userName").text(data[0].firstName + " " + data[0].lastName)
+      // userInfo = $("#userInfo").html()
+      userInfo = "Email: " + data[0].email;
+      userInfo += "</br>Image URL: " + data[0].image_url
+      userInfo += "</br>Request Created On: " + data[0].created_at.split("T")[0]
+      $("#userInfo").html(userInfo)
+      $(".container").show();
+    }
+  });
+}
+
 
 function search() {
   if(!$("#searchText").val()) {

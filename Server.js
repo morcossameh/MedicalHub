@@ -311,8 +311,44 @@ socket.on('get requests', function (post) {
   
   });
 
+  socket.on('get request',async function (request_id) {
+    console.log(request_id)
+    results = null
+
+      var test = await  cont.get_request_details(request_id).then((result) => {  
+        results = result
+       });
+      
+    console.log(results)
+    console.log('test request ')
+    socket.emit('request info',results);
+  
+  });
+ 
+  socket.on('accept request',async function (request_id) {
+
+    var results = null;
+    var test = await  cont.change_status(request_id,2).then((result) => {  
+      results = result
+     console.log(results)
+     console.log('results')
+     socket.emit('request accepted',true);
+});
 
 
+  });
 
+  socket.on('reject request',async function (request_id) {
+
+    var results = null;
+    var test = await  cont.change_status(request_id,3).then((result) => {  
+      results = result
+     console.log(results)
+     console.log('results')
+     socket.emit('request rejected',true);
+});
+
+
+  });
   
 });

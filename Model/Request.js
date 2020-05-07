@@ -35,20 +35,24 @@ class Request{
 
     }
 
-    async changeStatus(user_id,id,status){
+    async changeStatus(id,status){
         try{
             const { QueryTypes } = require('sequelize');
+            var user_id = await this.sequelize.query("select user_id from Request where id = "+id,{type: QueryTypes.SELECT});
             var response = await 
+            console.log(user_id);
+            console.log('user_id')
             this.sequelize.query("update Request SET status = "+ status + " where id = " + id,{type: QueryTypes.UPDATE});
             if(status == 2){
-                var temp = await this.sequelize.query("update User SET role = 2 where id ="+ user_id,{type: QueryTypes.UPDATE});
+                var temp = await this.sequelize.query("update User SET role = 2 where id ="+ user_id[0].user_id,{type: QueryTypes.UPDATE});
             }else{
                 var response = await 
-                this.sequelize.query("delete from Request where user_id ="+ user_id ,{type: QueryTypes.DELETE});
+                this.sequelize.query("delete from Request where user_id ="+ user_id[0].user_id ,{type: QueryTypes.DELETE});
             }
         return response;
     
         }catch(error){
+            console.log(error)
             console.log('changeStatus Failed');
             return null;
         }
@@ -59,7 +63,7 @@ class Request{
         try{
             const { QueryTypes } = require('sequelize');
             var response = await 
-            this.sequelize.query("select * from Request as q INNER JOIN User as u on q.user_id = u.id where q.id = " + id,{type: QueryTypes.SELECT});
+            this.sequelize.query("select q.id,u.firstName,u.lastName,u.email,q.image_url,q.created_at from Request as q INNER JOIN User as u on q.user_id = u.id where q.id = " + id,{type: QueryTypes.SELECT});
             
             return response;
     
@@ -73,7 +77,7 @@ class Request{
         try{
             const { QueryTypes } = require('sequelize');
             var response = await 
-            this.sequelize.query("select * from Request as q INNER JOIN User as u on q.user_id = u.id where q.user_id = " + id,{type: QueryTypes.SELECT});
+            this.sequelize.query("select q.id,u.firstName,u.lastName,u.email,q.image_url from Request as q INNER JOIN User as u on q.user_id = u.id where q.user_id = " + id,{type: QueryTypes.SELECT});
            
         return response;
     
@@ -87,7 +91,7 @@ class Request{
         try{
             const { QueryTypes } = require('sequelize');
             var response = await 
-            this.sequelize.query("select * from Request as q INNER JOIN User as u on q.user_id = u.id where status = 1" ,{type: QueryTypes.SELECT});
+            this.sequelize.query("select q.id,u.firstName,u.lastName from Request as q INNER JOIN User as u on q.user_id = u.id where status = 1" ,{type: QueryTypes.SELECT});
             
         return response;
         }catch(error){

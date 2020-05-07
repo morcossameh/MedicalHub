@@ -41,47 +41,14 @@
           <a class="navbar-brand">Medical Hub</a>
         </div>
         <ul class="nav navbar-nav">
-          <li><a>Home</a></li>
+          <li><a href="home.html">Home</a></li>
           <li id="promotePatient" style="display: none;"><a href="promotion.html">Promote to doctor</a></li>
+          <li><a href="search.html">Search</a></li>
         </ul>
-        <form class="navbar-form navbar-left" action="/action_page.php">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-          </div>
-        </form>
-        <ul id="navWithoutUser" class="nav navbar-nav navbar-right" >
+        <ul id="navWithoutUser" class="nav navbar-nav navbar-right">
           <li><a href="signup.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
           <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
-        <ul id="navPatient" class="nav navbar-nav navbar-right" hidden>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-user"></span> 
-              <strong class="fullname"></strong>
-              <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="navbar-login">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <p class="text-center">
-                        <span class="glyphicon glyphicon-user icon-size"></span>
-                      </p>
-                    </div>
-                    <div class="col-lg-6  ">
-                      <p class="text-left"><strong class="fullname"></strong></p>
-                      <p class="text-left">
-                        <button href="home.html" class="btn btn-default btn-block btn-sm" onclick="logout()">Logout</button>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-
         <ul id="navAdmin" class="nav navbar-nav navbar-right" hidden>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -111,34 +78,7 @@
           </li>
         </ul>
 
-        <ul id="navDoctor" class="nav navbar-nav navbar-right" hidden>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-user"></span> 
-              <strong class="fullname"></strong>
-              <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="navbar-login">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <p class="text-center">
-                        <span class="glyphicon glyphicon-star icon-size">54</span>
-                      </p>
-                    </div>
-                    <div class="col-lg-6  ">
-                      <p class="text-left"><strong class="fullname"></strong></p>
-                      <p class="text-left">
-                        <a href="home.html" class="btn btn-default btn-block btn-sm" onclick="logout()">Logout</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        
       </div>
     </nav>
     <div id="container" class="container">

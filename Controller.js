@@ -210,9 +210,9 @@ class Controller{
 
       }
 
-      change_status(user_id,id,status){
+      change_status(id,status){
         let v;
-        v = request.changeStatus(user_id,id,status);
+        v = request.changeStatus(id,status);
         return v;
 
       }
