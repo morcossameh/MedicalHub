@@ -5,12 +5,14 @@ const Entity = require ('./Entity.js');
 const Request = require ('./Request.js');
 const Doctor   = require('./Doctor.js')
 
+
 var user = null;
 var comment = null;
 var post = null;
 var entity = null;
 var request = null;
 var doctor = null ;
+
 
 class Test{
 

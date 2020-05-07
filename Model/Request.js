@@ -10,7 +10,7 @@ class Request{
         try{
             const { QueryTypes } = require('sequelize');
             //console.log(request);
-            await this.sequelize.query("insert into Request(user_id,status,image_url,created_at) values("+request.user_id+","+request.status+",'"+request.link+"',CURDATE())"
+            await this.sequelize.query("insert into Request(user_id,status,image_url,created_at) values("+request.user_id+",1,'"+request.link+"',CURDATE())"
             ,{type: QueryTypes.INSERT});
         return true;
     
@@ -35,11 +35,14 @@ class Request{
 
     }
 
-    async changeStatus(id,status){
+    async changeStatus(user_id,id,status){
         try{
             const { QueryTypes } = require('sequelize');
             var response = await 
             this.sequelize.query("update Request SET status = "+ status + " where id = " + id,{type: QueryTypes.UPDATE});
+            if(status == 2){
+                var temp = await this.sequelize.query("update User SET role = 2 where id ="+ user_id,{type: QueryTypes.UPDATE});
+            }
         return response;
     
         }catch(error){
@@ -81,7 +84,7 @@ class Request{
         try{
             const { QueryTypes } = require('sequelize');
             var response = await 
-            this.sequelize.query("select * from Request where status = 1" ,{type: QueryTypes.SELECT});
+            this.sequelize.query("select * from Request as q INNER JOIN User as u on q.user_id = u.id where status = 1" ,{type: QueryTypes.SELECT});
             
         return response;
         }catch(error){
