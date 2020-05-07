@@ -27,7 +27,7 @@ class Comment extends Entity{
         }catch(error){
 
             console.log('Get Comment By id Failed');
-            console.log(error)
+          //  console.log(error)
             return null;
 
         }
@@ -47,7 +47,7 @@ class Comment extends Entity{
             comments.append(response2);
         
         }
-        console.log(comments);
+        //console.log(comments);
             return response;
 
         }catch(error){
@@ -67,7 +67,7 @@ class Comment extends Entity{
             var output   = await this.sequelize.query("Insert into Comment(id,post_id) values("+response[0].id +" , "+commment.post_id+")", { type: QueryTypes.INSERT });
             return response[0].id;
         }catch(error){
-            console.log(error)
+           // console.log(error)
             console.log('Create Comment Failed');
             return null;
         }
@@ -86,7 +86,19 @@ class Comment extends Entity{
            return null;
         }
     
-    }   
+    }
+    
+    async getUserComments(id){
+        try{
+            const { QueryTypes } = require('sequelize');
+            var response = await this.sequelize.query("Select * FROM Entity as e Inner join Comment as c on e.id = c.id where e.user_id = "+ id,{type: QueryTypes.SELECT});
+            return response;
+      
+          }catch(error){
+             console.log('getUserComments Failed')
+             return null;
+          }
+    }
   
 }
 

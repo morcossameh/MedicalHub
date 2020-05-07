@@ -104,6 +104,25 @@ io.on('connection', function (socket) {
     });
 
  });
+
+ socket.on('add request', function (request) {
+    
+  cont.add_request(request).then((result) => {
+    console.log(result);
+    socket.emit('request result',result);
+  });
+
+});
+
+socket.on('user request', function (user_id) {
+    
+  cont.get_user_request(user_id).then((result) => {
+    console.log(result);
+    socket.emit('request',result);
+  });
+
+});
+
  socket.on('delete post', function (post) {
     
     cont.delete_post(post).then((result) => {
@@ -213,6 +232,69 @@ io.on('connection', function (socket) {
 
 
   });
+
+   
+  socket.on('open profile',async function (user_id) {
+    profile_atributes = {user: null,posts : null ,comments :null , num_of_upVotes:null , num_of_downVotes: null,}
+
+    
+     var test3 = await cont.get_user_info(user_id).then((result4) => {  
+         
+      profile_atributes.user = result4
+
+     });
+  
+     var test = await  cont.get_posts_by_id(user_id).then((result) => {  
+         
+      profile_atributes.posts = result
+
+     });
+
+    var test2 = await cont.get_user_comments(user_id).then((result1) => {
+      profile_atributes.comments = result1;
+     });
+     
+     var test4 = await cont.get_doctor_votes(user_id).then((result3) => {
+       console.log(result3);
+       console.log("here");
+       if(result3.length != 0){
+         
+        profile_atributes.num_of_upVotes = result3[0].upvotes;
+        profile_atributes.num_of_downVotes = result3[0].downvotes;
+       }
+   
+     });
+
+
+
+
+     
+     socket.emit('profile attributes',profile_atributes);
+  
+  });
+
+  socket.on('search',async function (search) {
+    search_results = null
+    if(search.type == 1){
+
+      var test = await  cont.search_entity(search.content).then((result) => {  
+        search_results = result
+       });
+
+    }else{
+
+      var test2 = await cont.search_user(search.content).then((result1) => {
+        search_results = result1;
+       });
+
+    }
+    search_results.sentence = search.content;
+
+    socket.emit('search results',search_results);
+  
+  });
+
+
 
 
   

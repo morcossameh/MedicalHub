@@ -2,13 +2,17 @@ const User = require ('./User.js');
 const Comment = require ('./Comment.js');
 const Post = require ('./Post.js');
 const Entity = require ('./Entity.js');
+const Request = require ('./Request.js');
 const Doctor   = require('./Doctor.js')
+
 
 var user = null;
 var comment = null;
 var post = null;
 var entity = null;
+var request = null;
 var doctor = null ;
+
 
 class Test{
 
@@ -17,9 +21,12 @@ class Test{
         comment = new Comment(sequelize);
         entity = new Entity(sequelize);
         post = new Post(sequelize);
+        request = new Request(sequelize);
         doctor = new Doctor(sequelize)
         this.sequelize = sequelize;
     }
+
+
     /* Test User Class */
 
     /*  Enter wrong username or password when logging in. */
@@ -83,7 +90,7 @@ class Test{
      }
     /* Test Comment Class */
     async TestGetCommentbyValidPost(){
-        var post_id = 20;
+        var post_id = 4;
         var response = await comment.getCommentbyPost(post_id);
         if(response.length == 1){
             console.log("\x1b[32m%s\x1b[0m","TestGetCommentbyValidPost Passed");
@@ -103,7 +110,7 @@ class Test{
     }
     /*  */
     async TestCommentOnDeletedPost(){
-        var invalid_post = {user_id : 21 , post_id : 2 ,content :'eshraq m7dsh m2dr mghodha'};
+        var invalid_post = {user_id : 21 , post_id : 21 ,content :'Test 2'};
         var v = await comment.createComment(invalid_post); 
         if(v == null){
           console.log("\x1b[32m%s\x1b[0m","TestCommentOnDeletedPost Passed");
@@ -113,7 +120,7 @@ class Test{
     }
 
     async TestCommentOnPost(){
-        var invalid_post = {user_id : 21 , post_id : 21 ,content :'eshraq m7dsh m2dr mghodha'};
+        var invalid_post = {user_id : 21 , post_id : 2 ,content :'Test Comment'};
         var v = await comment.createComment(invalid_post); 
         if(v != null){
           console.log("\x1b[32m%s\x1b[0m","TestCommentOnPost Passed");
@@ -164,7 +171,7 @@ class Test{
      }
 
      async TestGetPostByID(){
-        var post_id = 62;
+        var post_id = 2;
         var v = await post.getPostContentById(post_id);
         if(v.length != 0 && v != null){
           console.log("\x1b[32m%s\x1b[0m","TestGetPostByID Passed");
@@ -211,6 +218,91 @@ class Test{
         }
      }
 
+     async addRequest(){
+      const q = {user_id : 8,link:'http://link.com' , status : 1};
+      var v = await request.addRequest(q);
+      if(v != null){
+        console.log("\x1b[32m%s\x1b[0m","addRequest Passed");
+      }else {
+        console.log("\x1b[31m%s\x1b[0m","addRequest Failed");
+      }
+   }
+   async addDuplicateRequest(){
+    const q = {user_id : 6,link:'http://link.com' , status : 1};
+    var v = await request.addRequest(q);
+    if(v == null){
+       console.log("\x1b[32m%s\x1b[0m","addDuplicateRequest Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","addDuplicateRequest Failed");
+    }
+ }
+   async deleteRequest(){
+    const q = {user_id : 8,link:'http://link.com' , status : 1};
+    var v = await request.deleteRequest(q.user_id);
+    if(v == null){
+       console.log("\x1b[32m%s\x1b[0m","deleteRequest Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","deleteRequest Failed");
+    }
+   }
+
+   async deleteDeletedRequest(){
+    const q = {user_id : 8,link:'http://link.com' , status : 1};
+    var v = await request.deleteRequest(q.user_id);
+    if(v == null){
+       console.log("\x1b[32m%s\x1b[0m","deleteDeletedRequest Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","deleteDeletedRequest Failed");
+    }
+   }
+
+   async testChangeStatus(){
+    var v = await request.changeStatus(10,2);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testChangeStatus Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testChangeStatus Failed");
+    }
+   }
+
+   async testgetRequestDetails(){
+    var v = await request.getRequestDetails(10);
+    console.log(v);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testgetRequestDetails Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testgetRequestDetails Failed");
+    }
+   }
+   async testgetRequestDetailsByUser(){
+    var v = await request.getRequestUser(7);
+    console.log(v);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testgetRequestDetails Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testgetRequestDetails Failed");
+    }
+
+   }
+   async testGetRequests(){
+    var v = await request.getRequests();
+    console.log(v);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testgetRequestDetails Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testgetRequestDetails Failed");
+    }
+   }
+   async testGetUserComments(){
+    var v = await comment.getUserComments(22);
+    console.log(v);
+    if(v != null){
+       console.log("\x1b[32m%s\x1b[0m","testGetUserComments Passed");
+    }else {
+       console.log("\x1b[31m%s\x1b[0m","testGetUserComments Failed");
+    }
+   }
+
      /* Test search */
 
      async TestSearchWithEntityContent(){ 
@@ -246,6 +338,27 @@ class Test{
 
  }
 
+  /* test like a doctor post */
+  async TestLikeDoctorPost(){
+    var response = await entity.Likes(6,28,true,true);
+    //console.log(response)
+    if(response != null){
+        console.log("\x1b[32m%s\x1b[0m","TestDOctorRating Passed");
+    }else{
+        console.log("\x1b[31m%s\x1b[0m","TestDOctorRating Failed");
+    }
 
+ }
+ /* test undo like to a doctor post  */ 
+ async TestUnLikeDoctorPost(){
+  var response = await entity.unLike(1,28);
+  //console.log(response)
+  if(response != null){
+      console.log("\x1b[32m%s\x1b[0m","TestDOctorRating Passed");
+  }else{
+      console.log("\x1b[31m%s\x1b[0m","TestDOctorRating Failed");
+  }
+
+}
 }
 module.exports = Test;

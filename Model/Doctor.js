@@ -23,5 +23,18 @@ class Doctor{
         }
     }
 
+    async getVotesForDoctor(doctor_id){
+        try{
+            
+            const { QueryTypes } = require('sequelize');
+                let response = await this.sequelize.query("Select * From Doctor where doctor_id ="+doctor_id,{ type: QueryTypes.SELECT});
+    
+            return response;
+        }catch(error){
+            console.log(error);
+            return null;
+        }
+    }
+
 }
 module.exports = Doctor;
