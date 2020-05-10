@@ -5,7 +5,7 @@ class User{
     }
 
     // for sign up returns true for success and false for failure
-    async createUser(user){
+    async createUser1(user){
         try{
             //console.log(user);
             //console.log(user.id);
@@ -49,7 +49,7 @@ class User{
     }
 
 // for sign in returns user json object for success and null for failure
-    async validUser(email,pass){
+    async validUser1(email,pass){
         try{
             const { QueryTypes } = require('sequelize');
             var user = null;
@@ -57,7 +57,7 @@ class User{
             if(user[0].role == 2){
                var user2 = await this.sequelize.query("Select * from Doctor where doctor_id = " +user[0].id,{type: QueryTypes.SELECT});
                user[0].upvotes = user2[0].upvotes;
-               user[0].downvotes = user2[0].downvotes;
+               user[0].downvotes = user2[0].Downvotes;
             }
             if(user.length == 0){
                 console.log('Email or Password is wrong');
@@ -67,7 +67,7 @@ class User{
             }
            
         }catch(error){
-            //console.log(error);
+            console.log(error);
             console.log('Email or Password is wrong');
             return null;
         }
@@ -126,7 +126,7 @@ class User{
       /* password encryption  trial */
 
 
-      async createUserWithIncryptedPassword(user){
+      async createUser(user){
         try{
             console.log(user);
             console.log(user.id);
@@ -153,21 +153,28 @@ class User{
             return null;
         }
     }
-    async validUserWithIncryptedPassword(email,pass){
+    async validUser(email,pass){
         try{
             const bcrypt = require('bcrypt');
             const { QueryTypes } = require('sequelize');
             var user = null;
             user = await this.sequelize.query("Select * from User where email = '" + email +"'",{type: QueryTypes.SELECT});
+            
             if(user.length == 0){
                 console.log('Email or Password is wrong');
                 return null;
             }else{
+                if(user[0].role == 2){
+                    var user2 = await this.sequelize.query("Select * from Doctor where doctor_id = " +user[0].id,{type: QueryTypes.SELECT});
+                    user[0].upvotes = user2[0].upvotes;
+                    user[0].downvotes = user2[0].Downvotes;
+                 }
                 return await bcrypt.compare(pass, user[0].password).then(function(result) {
                     console.log(result);
                     if(result == true){
+                        
                         console.log(user[0].id)
-                        return true;
+                        return user[0];
                     }else{
                         return null ; 
                     }

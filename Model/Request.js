@@ -77,7 +77,7 @@ class Request{
         try{
             const { QueryTypes } = require('sequelize');
             var response = await 
-            this.sequelize.query("select q.id,u.firstName,u.lastName,u.email,q.image_url from Request as q INNER JOIN User as u on q.user_id = u.id where q.user_id = " + id,{type: QueryTypes.SELECT});
+            this.sequelize.query("select q.id,q.status,u.firstName,u.lastName,u.email,q.image_url from Request as q INNER JOIN User as u on q.user_id = u.id where q.user_id = " + id,{type: QueryTypes.SELECT});
            
         return response;
     

@@ -115,7 +115,8 @@ io.on('connection', function (socket) {
 });
 
 socket.on('user request', function (user_id) {
-    
+    console.log('request')
+    console.log(user_id)
   cont.get_user_request(user_id).then((result) => {
     console.log(result);
     if(result.length != 0){
@@ -277,7 +278,7 @@ socket.on('get requests', function (post) {
        if(result3.length != 0){
          
         profile_atributes.num_of_upVotes = result3[0].upvotes;
-        profile_atributes.num_of_downVotes = result3[0].downvotes;
+        profile_atributes.num_of_downVotes = result3[0].Downvotes;
        }
    
      });
